@@ -1,0 +1,25 @@
+﻿@model ZTPwords.Models.QuestionViewModels.AnsweredQuestionModel
+@{
+    ViewBag.Title = "Question";
+}
+
+<h2>Question</h2>
+
+<div class="maindiv">
+    
+    <div class="panel-default">
+        <div class="panel-body">
+            @Model.Word
+        </div>
+    </div>
+    
+    <div class="panel-default">
+        @foreach (var answer in Model.Answers.getAnswerList())
+        {
+            <div class="panel-body">
+                @answer
+            </div>
+        }
+        
+    </div>
+</div>
