@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ZTPwords.Logic;
 
 namespace ZTPwords.Controllers
 {
@@ -16,7 +17,8 @@ namespace ZTPwords.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-
+            IAnswers al =new AnswersDecoratorSwapLetter( new Answers("sample"));
+            ViewBag.list = al.getAnswerList();
             return View();
         }
 

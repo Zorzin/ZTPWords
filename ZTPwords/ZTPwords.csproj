@@ -201,9 +201,20 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Logic\AnswerBuilder.cs" />
+    <Compile Include="Logic\AnswerBuilderRandom.cs" />
+    <Compile Include="Logic\AnswerBuilderSameLength.cs" />
+    <Compile Include="Logic\AnswerBuilderSameLetter.cs" />
+    <Compile Include="Logic\AnswersDecorator.cs" />
+    <Compile Include="Logic\AnswersDecoratorListMix.cs" />
+    <Compile Include="Logic\AnswersDecoratorSwapLetter.cs" />
+    <Compile Include="Logic\AnswersDirector.cs" />
+    <Compile Include="Logic\Answers.cs" />
+    <Compile Include="Logic\IAnswers.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Words.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

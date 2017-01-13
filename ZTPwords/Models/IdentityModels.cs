@@ -24,7 +24,7 @@ namespace ZTPwords.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
-
+        public DbSet Words { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
