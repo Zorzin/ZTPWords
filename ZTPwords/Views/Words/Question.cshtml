@@ -5,6 +5,12 @@
  
 <h2 style="text-align: center">Question 1/10</h2>
 
+
+    if (ViewBag.NoAnswer != null)
+    {
+        <h2 style="color: red; text-align: center;">@ViewBag.NoAnswer</h2>
+    }
+
 <div class="maindiv">
     
     <div class="panel panel-default">
@@ -16,7 +22,7 @@
     
     <div class="panel-group" >
         <a class="answerpanel">
-            <div class="panel panel-default answerpanelbody" id="0">
+            <div class="panel panel-default answerpanelbody" id="-1">
                 <div class="panel-body">
                     WORD 1
                 </div>
@@ -49,8 +55,7 @@
     </div>
 </div>
     @Html.TextBoxFor(model=>model.AnswerId,new {id="answer", style="display:none;"})
-    <input type="submit" class="btn btn-success" value="Submit" style="margin-top:20px"/>
-    @*@Html.ActionLink("Submit","Question",null,new {@class = "btn btn-success", style="margin-top:20px;"})*@
+    <input type="submit" class="btn btn-success" value="Submit" style="margin-top: 20px;" disabled="disabled" id="submitButton"/>
 }
 @Styles.Render("~/Content/Site.css")
 @section Scripts{
@@ -65,6 +70,7 @@
                 $(this).css('background-color', '#FFEB3B');
                 var id = $(this).attr('id');;
                 $("#answer").val(id);
+                $("#submitButton").prop('disabled', false);
             });
     });
 </script>

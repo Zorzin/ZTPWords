@@ -40,17 +40,10 @@ namespace ZTPwords.Controllers
             if (aqm.AnswerId !=-1)
             {
                 var userAnswer = aqm.Answers.getAnswerList()[aqm.AnswerId];
-                if (userAnswer == aqm.Word.WordPl)
-                {
-                    //correct
-                }
-                else
-                {
-                    //incorrect
-                }
+                //SomeStrategryFunction(userAnswer);
                 //logic here
             }
-            ViewBag.BadAnswer = "Bad answer";
+            ViewBag.NoAnswer = "Pick answer";
             return View(aqm);
         }
 
