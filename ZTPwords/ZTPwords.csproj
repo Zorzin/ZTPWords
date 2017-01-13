@@ -220,6 +220,10 @@
     <Compile Include="Migrations\201701131817259_Init.Designer.cs">
       <DependentUpon>201701131817259_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701131937044_Word table.cs" />
+    <Compile Include="Migrations\201701131937044_Word table.Designer.cs">
+      <DependentUpon>201701131937044_Word table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -311,6 +315,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201701131817259_Init.resx">
       <DependentUpon>201701131817259_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701131937044_Word table.resx">
+      <DependentUpon>201701131937044_Word table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

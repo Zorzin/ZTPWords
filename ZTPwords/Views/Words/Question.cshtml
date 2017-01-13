@@ -1,25 +1,71 @@
 ﻿@model ZTPwords.Models.QuestionViewModels.AnsweredQuestionModel
-@{
-    ViewBag.Title = "Question";
-}
 
-<h2>Question</h2>
+@using (Html.BeginForm())
+{
+ 
+<h2 style="text-align: center">Question 1/10</h2>
 
 <div class="maindiv">
     
-    <div class="panel-default">
+    <div class="panel panel-default">
         <div class="panel-body">
-            @Model.Word
+            Select the word that corresponds to "słowo"
+            @* @Model.Word *@
         </div>
     </div>
     
-    <div class="panel-default">
-        @foreach (var answer in Model.Answers.getAnswerList())
-        {
-            <div class="panel-body">
-                @answer
+    <div class="panel-group" >
+        <a class="answerpanel">
+            <div class="panel panel-default answerpanelbody" id="0">
+                <div class="panel-body">
+                    WORD 1
+                </div>
             </div>
-        }
+        </a>
         
+        <a class="answerpanel">
+            <div class="panel panel-default answerpanelbody" id="1">
+                <div class="panel-body">
+                    WORD 2
+                </div>
+            </div>
+        </a>
+
+        <a class="answerpanel">
+            <div class="panel panel-default answerpanelbody" id="2">
+                <div class="panel-body">
+                    WORD 3
+                </div>
+            </div>
+        </a>
+
+        <a class="answerpanel"> 
+            <div class="panel panel-default answerpanelbody" id="3">
+                <div class="panel-body">
+                    WORD 4
+                </div>
+            </div>
+        </a>
     </div>
 </div>
+    @Html.TextBoxFor(model=>model.AnswerId,new {id="answer", style="display:none;"})
+    <input type="submit" class="btn btn-success" value="Submit" style="margin-top:20px"/>
+    @*@Html.ActionLink("Submit","Question",null,new {@class = "btn btn-success", style="margin-top:20px;"})*@
+}
+@Styles.Render("~/Content/Site.css")
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $(function() {
+        $(".answerpanelbody")
+            .click(function () {
+                $(".answerpanelbody").each(function() {
+                    $(this).css('background-color', '#FFFFFF');
+                })
+                $(this).css('background-color', '#FFEB3B');
+                var id = $(this).attr('id');;
+                $("#answer").val(id);
+            });
+    });
+</script>
+}

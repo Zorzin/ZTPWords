@@ -22,3 +22,7 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.answerpanel:hover {
+    text-decoration: none;
+}
