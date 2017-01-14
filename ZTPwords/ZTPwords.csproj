@@ -213,6 +213,7 @@
     <Compile Include="Logic\AnswersDirector.cs" />
     <Compile Include="Logic\Answers.cs" />
     <Compile Include="Logic\IAnswers.cs" />
+    <Compile Include="Logic\State\Context.cs" />
     <Compile Include="Logic\State\LearningState.cs" />
     <Compile Include="Logic\State\StateMode.cs" />
     <Compile Include="Logic\State\TestState.cs" />
