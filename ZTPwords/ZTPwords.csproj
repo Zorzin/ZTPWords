@@ -204,7 +204,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Logic\AnswerBuilder.cs" />
-    <Compile Include="Logic\AnswerBuilderRandom.cs" />
     <Compile Include="Logic\AnswerBuilderSameLength.cs" />
     <Compile Include="Logic\AnswerBuilderSameLetter.cs" />
     <Compile Include="Logic\AnswersDecorator.cs" />
