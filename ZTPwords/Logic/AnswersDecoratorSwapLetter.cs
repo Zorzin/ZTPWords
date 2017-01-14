@@ -3,25 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using ZTPwords.Models;
 
 namespace ZTPwords.Logic
 {
     public class AnswersDecoratorSwapLetter : AnswersDecorator
     {
-        public AnswersDecoratorSwapLetter(Answers _answers) : base(_answers)
+        public AnswersDecoratorSwapLetter(IAnswers _answers) : base(_answers)
         {
         }
 
-        public override  List<string> getAnswerList()
+        public override List<Word> getAnswerList()
         {
-            List<string> temp = base.answers.getAnswerList();
+            List<Word> temp = answers.getAnswerList();
             var size = temp.Count;
             var rand = new Random().Next() % size;
             if (true)
             {
-                string s = temp[rand];
-                temp.Remove(s);
-
+                string s = temp[rand].WordEn;
 
                 Random swap = new Random();
                 int position1 = swap.Next(1, s.Length - 1);
@@ -33,7 +32,18 @@ namespace ZTPwords.Logic
                 s = s.Remove(position2, 1);
                 s = s.Insert(position2, tempString1);
 
-                temp.Add(s);
+                temp[rand].WordEn = s;
+                s = temp[rand].WordPl;
+
+                position1 = swap.Next(1, s.Length - 1);
+                position2 = swap.Next(1, s.Length - 1);
+                tempString1 = s[position1].ToString();
+                tempString2 = s[position2].ToString();
+                s = s.Remove(position1, 1);
+                s = s.Insert(position1, tempString2);
+                s = s.Remove(position2, 1);
+                s = s.Insert(position2, tempString1);
+                temp[rand].WordPl = s;
             }
             return temp;
         }

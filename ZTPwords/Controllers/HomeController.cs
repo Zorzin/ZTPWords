@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ZTPwords.Logic;
+using ZTPwords.Models;
 
 namespace ZTPwords.Controllers
 {
@@ -16,8 +17,10 @@ namespace ZTPwords.Controllers
 
         public ActionResult About()
         {
+            
             ViewBag.Message = "Your application description page.";
-            IAnswers al =new AnswersDecoratorSwapLetter( new Answers("sample"));
+            Word w = new Word();
+            IAnswers al =new AnswersDecoratorSwapLetter(new AnswersDecoratorListMix( new Answers(w,"SameLetter")));
             ViewBag.list = al.getAnswerList();
             return View();
         }
