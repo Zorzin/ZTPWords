@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
 using ZTPwords.Controllers;
 using ZTPwords.Models;
 
@@ -11,8 +8,24 @@ namespace ZTPwords.Logic.State
     {
         public QuestionHandling AnswerQuestion(QuestionViewModels.AnsweredQuestionModel model)
         {
-            return QuestionHandling.WrongAnswer;
-            
+            var id = model.AnswerId;
+            var list = model.Answers.getAnswerList();
+            var word = model.Word;
+
+            var lang = (string) HttpContext.Current.Session["lang"];
+            switch (lang)
+            {
+                case "en":
+                    if (word.WordEn == list[id].WordEn)
+                        return QuestionHandling.CorrectAnswer;
+                    return QuestionHandling.WrongAnswer;
+                case "pl":
+                    if (word.WordPl == list[id].WordPl)
+                        return QuestionHandling.CorrectAnswer;
+                    return QuestionHandling.WrongAnswer;
+                default:
+                    return QuestionHandling.WrongAnswer;
+            }
         }
     }
 }

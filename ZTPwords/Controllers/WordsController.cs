@@ -51,9 +51,9 @@ namespace ZTPwords.Controllers
             {
                 var mode = (StateMode) Session["mode"];
                 var userAnswer = aqm.Answers.getAnswerList()[aqm.AnswerId];
-                
                 //SomeStrategryFunction(userAnswer);
                 //logic here
+                context.GetState().AnswerQuestion(aqm);
             }
             ViewBag.NoAnswer = "Pick answer";
             return View(aqm);
