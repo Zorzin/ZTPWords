@@ -77,6 +77,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Random.Org, Version=0.1.4759.19552, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Random.Org.0.1.4759.19552\lib\net40\Random.Org.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -212,6 +216,8 @@
     <Compile Include="Logic\AnswersDirector.cs" />
     <Compile Include="Logic\Answers.cs" />
     <Compile Include="Logic\IAnswers.cs" />
+    <Compile Include="Logic\Iterator\IIterator.cs" />
+    <Compile Include="Logic\Iterator\Iterator.cs" />
     <Compile Include="Logic\Strategy\IMode.cs" />
     <Compile Include="Logic\Strategy\LearningMode.cs" />
     <Compile Include="Logic\Strategy\TestMode.cs" />
