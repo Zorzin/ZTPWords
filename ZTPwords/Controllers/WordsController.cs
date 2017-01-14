@@ -22,15 +22,16 @@ namespace ZTPwords.Controllers
         }
 
 
-        public ActionResult Question(QuestionModel qvm)
+        public ActionResult Question() //QuestionModel qvm
         {
-            AnsweredQuestionModel aqm = new AnsweredQuestionModel()
-            {
-                Answers = qvm.Answers,
-                Word = qvm.Word,
-                AnswerId = -1
-            };
-            return View(aqm);
+            //AnsweredQuestionModel aqm = new AnsweredQuestionModel()
+            //{
+            //    Answers = qvm.Answers,
+            //    Word = qvm.Word,
+            //    AnswerId = -1
+            //};
+            AnsweredQuestionModel aqm = new AnsweredQuestionModel();
+            return View(aqm); //aqm
         }
 
         [HttpPost]
@@ -38,9 +39,11 @@ namespace ZTPwords.Controllers
         {
             if (aqm.AnswerId !=-1)
             {
+                var userAnswer = aqm.Answers.getAnswerList()[aqm.AnswerId];
+                //SomeStrategryFunction(userAnswer);
                 //logic here
             }
-            ViewBag.BadAnswer = "Bad answer";
+            ViewBag.NoAnswer = "Pick answer";
             return View(aqm);
         }
 
