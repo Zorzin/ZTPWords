@@ -213,9 +213,9 @@
     <Compile Include="Logic\AnswersDirector.cs" />
     <Compile Include="Logic\Answers.cs" />
     <Compile Include="Logic\IAnswers.cs" />
-    <Compile Include="Logic\Strategy\IMode.cs" />
-    <Compile Include="Logic\Strategy\LearningMode.cs" />
-    <Compile Include="Logic\Strategy\TestMode.cs" />
+    <Compile Include="Logic\State\LearningState.cs" />
+    <Compile Include="Logic\State\StateMode.cs" />
+    <Compile Include="Logic\State\TestState.cs" />
     <Compile Include="Migrations\201701121946196_InitialCreate.cs" />
     <Compile Include="Migrations\201701121946196_InitialCreate.Designer.cs">
       <DependentUpon>201701121946196_InitialCreate.cs</DependentUpon>
