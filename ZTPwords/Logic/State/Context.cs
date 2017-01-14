@@ -10,11 +10,10 @@ namespace ZTPwords.Logic.State
 
     public class Context
     {
-        private StateMode _stateMode;
+        private  StateMode _stateMode;
 
-        public Context(State state)
+        public Context()
         {
-            ChangeState(state);
         }
 
         public void ChangeState(State state)
@@ -30,6 +29,11 @@ namespace ZTPwords.Logic.State
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
             }
+        }
+
+        public StateMode GetState()
+        {
+            return _stateMode;
         }
     }
 }

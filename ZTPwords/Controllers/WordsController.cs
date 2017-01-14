@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -21,8 +22,8 @@ namespace ZTPwords.Controllers
     public class WordsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        private Context context = new Context(State.Test);
-        
+        private Context context = new Context();
+
         // GET: Words
         public ActionResult Index()
         {
@@ -45,9 +46,12 @@ namespace ZTPwords.Controllers
         [HttpPost]
         public ActionResult Question(AnsweredQuestionModel aqm)
         {
+
             if (aqm.AnswerId != -1)
             {
+                var mode = (StateMode) Session["mode"];
                 var userAnswer = aqm.Answers.getAnswerList()[aqm.AnswerId];
+                
                 //SomeStrategryFunction(userAnswer);
                 //logic here
             }
@@ -57,7 +61,26 @@ namespace ZTPwords.Controllers
 
         public ActionResult SelectDifficulty()
         {
+            switch (Request.QueryString["mode"])
+            {
+                case "learning":
+                    context.ChangeState(State.Learning);
+                    break;
+                case "test":
+                    context.ChangeState(State.Test);
+                    break;
+            }
+            Session["mode"] = context.GetState();
             return View();
+        }
+
+        public ActionResult ConfirmDifficulty()
+        {
+            if (Request.QueryString["difficulty"] != null)
+            {
+                Session["difficulty"] = Request.QueryString["difficulty"];
+            }
+            return RedirectToAction("Question");
         }
 
         // GET: Words/Details/5
