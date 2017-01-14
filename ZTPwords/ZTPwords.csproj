@@ -317,6 +317,7 @@
     <Content Include="Views\Words\Index.cshtml" />
     <Content Include="Views\Words\Question.cshtml" />
     <Content Include="Views\Words\SelectDifficulty.cshtml" />
+    <Content Include="Views\Words\SelectLanguage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

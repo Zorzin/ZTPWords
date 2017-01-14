@@ -53,6 +53,30 @@ namespace ZTPwords.Controllers
             return View(aqm);
         }
 
+        public ActionResult SelectLanguage()
+        {
+            return View();
+        }
+        
+        public ActionResult ConfirmSelectLanguage(string language)
+        {
+            if (!string.IsNullOrEmpty(language))
+            {
+                if (language=="pl")
+                {
+                    Session["lang"] = "pl";
+                    return RedirectToAction("Question");
+                }
+                else if (language == "eng")
+                {
+                    Session ["lang"] = "en";
+                    return RedirectToAction("Question");
+                }
+            }
+            return RedirectToAction("SelectLanguage");
+        }
+
+
         public ActionResult SelectDifficulty()
         {
             switch (Request.QueryString["mode"])
@@ -73,8 +97,9 @@ namespace ZTPwords.Controllers
             if (Request.QueryString["difficulty"] != null)
             {
                 Session["difficulty"] = Request.QueryString["difficulty"];
+                return RedirectToAction("SelectLanguage");
             }
-            return RedirectToAction("Question");
+            return RedirectToAction("SelectDifficulty");
         }
 
         [Authorize]
