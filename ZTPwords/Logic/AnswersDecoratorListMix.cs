@@ -15,7 +15,7 @@ namespace ZTPwords.Logic
         public override List<Word> getAnswerList()
         {
             List<Word> temp = answers.getAnswerList();
-            Random rand = new Random();
+            Random.Org.Random rand = new Random.Org.Random();
             int size = temp.Count;
             List<Word> temp2= new List<Word>();
             int tempSize = size;

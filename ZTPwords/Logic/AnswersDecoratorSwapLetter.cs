@@ -17,12 +17,12 @@ namespace ZTPwords.Logic
         {
             List<Word> temp = answers.getAnswerList();
             var size = temp.Count;
-            var rand = new Random().Next() % size;
+            var rand = new System.Random().Next() % size;
             if (true)
             {
                 string s = temp[rand].WordEn;
 
-                Random swap = new Random();
+                Random.Org.Random swap = new Random.Org.Random();
                 int position1 = swap.Next(1, s.Length - 1);
                 int position2 = swap.Next(1, s.Length - 1);
                 string tempString1 = s[position1].ToString();
