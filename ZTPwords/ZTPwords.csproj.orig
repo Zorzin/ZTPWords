@@ -216,12 +216,18 @@
     <Compile Include="Logic\AnswersDirector.cs" />
     <Compile Include="Logic\Answers.cs" />
     <Compile Include="Logic\IAnswers.cs" />
+<<<<<<< HEAD
     <Compile Include="Logic\Iterator\IIterator.cs" />
     <Compile Include="Logic\Iterator\Iterator.cs" />
+    <Compile Include="Logic\Strategy\IMode.cs" />
+    <Compile Include="Logic\Strategy\LearningMode.cs" />
+    <Compile Include="Logic\Strategy\TestMode.cs" />
+=======
     <Compile Include="Logic\State\Context.cs" />
     <Compile Include="Logic\State\LearningState.cs" />
     <Compile Include="Logic\State\StateMode.cs" />
     <Compile Include="Logic\State\TestState.cs" />
+>>>>>>> c0048d7b9760ba180cb3fc8306352ec1aaa994a4
     <Compile Include="Migrations\201701121946196_InitialCreate.cs" />
     <Compile Include="Migrations\201701121946196_InitialCreate.Designer.cs">
       <DependentUpon>201701121946196_InitialCreate.cs</DependentUpon>
@@ -307,7 +313,6 @@
     <Content Include="Views\Words\Edit.cshtml" />
     <Content Include="Views\Words\Index.cshtml" />
     <Content Include="Views\Words\Question.cshtml" />
-    <Content Include="Views\Words\SelectDifficulty.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
