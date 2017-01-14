@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Diagnostics;
@@ -7,8 +6,10 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using ZTPwords.Logic.State;
 using ZTPwords.Models;
+using static System.String;
 using static ZTPwords.Models.QuestionViewModels;
 
 namespace ZTPwords.Controllers
@@ -23,13 +24,6 @@ namespace ZTPwords.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private Context context = new Context();
-
-        // GET: Words
-        public ActionResult Index()
-        {
-            return View(db.Words.ToList());
-        }
-
 
         public ActionResult Question() //QuestionModel qvm
         {
@@ -53,7 +47,7 @@ namespace ZTPwords.Controllers
                 var userAnswer = aqm.Answers.getAnswerList()[aqm.AnswerId];
                 //SomeStrategryFunction(userAnswer);
                 //logic here
-                context.GetState().AnswerQuestion(aqm);
+                var result = context.GetState().AnswerQuestion(aqm);
             }
             ViewBag.NoAnswer = "Pick answer";
             return View(aqm);
@@ -81,6 +75,33 @@ namespace ZTPwords.Controllers
                 Session["difficulty"] = Request.QueryString["difficulty"];
             }
             return RedirectToAction("Question");
+        }
+
+        [Authorize]
+        // GET: Words
+        public ActionResult Index(string currentFilter, string searchString, int? page)
+        {
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var words = db.Words.ToList();
+
+            if (!IsNullOrEmpty(searchString))
+            {
+                words = words.Where(x => x.WordEn.Contains(searchString) || x.WordPl.Contains(searchString)).ToList();
+            }
+
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            return View(words.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Words/Details/5
