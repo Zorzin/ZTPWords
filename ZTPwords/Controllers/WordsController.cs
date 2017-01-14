@@ -6,15 +6,23 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using ZTPwords.Logic.State;
 using ZTPwords.Models;
 using static ZTPwords.Models.QuestionViewModels;
 
 namespace ZTPwords.Controllers
 {
+    public enum QuestionHandling
+    {
+        WrongAnswer,
+        CorrectAnswer,
+        NoMoreQuestions,
+    }
     public class WordsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        private Context context = new Context(State.Test);
+        
         // GET: Words
         public ActionResult Index()
         {
@@ -37,7 +45,7 @@ namespace ZTPwords.Controllers
         [HttpPost]
         public ActionResult Question(AnsweredQuestionModel aqm)
         {
-            if (aqm.AnswerId !=-1)
+            if (aqm.AnswerId != -1)
             {
                 var userAnswer = aqm.Answers.getAnswerList()[aqm.AnswerId];
                 //SomeStrategryFunction(userAnswer);
@@ -45,6 +53,11 @@ namespace ZTPwords.Controllers
             }
             ViewBag.NoAnswer = "Pick answer";
             return View(aqm);
+        }
+
+        public ActionResult SelectDifficulty()
+        {
+            return View();
         }
 
         // GET: Words/Details/5
