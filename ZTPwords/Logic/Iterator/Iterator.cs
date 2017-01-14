@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using Microsoft.ApplicationInsights.Extensibility.Implementation;
 using ZTPwords.Models;
 using static ZTPwords.Models.QuestionViewModels;
 
@@ -12,9 +13,8 @@ namespace ZTPwords.Logic.Iterator
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         public List<QuestionModel> Questions;
-        public string Level;
         private Word word;
-        public string Mode;
+        private string mode;
         public QuestionModel First()
         {
             return Questions[0];
@@ -27,29 +27,35 @@ namespace ZTPwords.Logic.Iterator
                 Random.Org.Random r = new Random.Org.Random();
                 int id = r.Next(0, 66366);
                 word = db.Words.Find(id);
-                switch (Level)
+                mode = (string)System.Web.HttpContext.Current.Session["lang"];
+                string level =(string) System.Web.HttpContext.Current.Session["difficulty"];
+                if (level!=null)
                 {
-                    case "Easy":
-                        if (!CheckForEasy())
-                        {
-                            continue;
-                        }
-                        break;
-                    case "Medium":
-                        if (!CheckForMedium())
-                        {
-                            continue;
-                        }
-                        break;
-                    case "Hard":
-                        if (!CheckForHard())
-                        {
-                            continue;
-                        }
-                        break;
-                    default:
-                        break;
+                    switch (level)
+                    {
+                        case "Easy":
+                            if (!CheckForEasy())
+                            {
+                                continue;
+                            }
+                            break;
+                        case "Medium":
+                            if (!CheckForMedium())
+                            {
+                                continue;
+                            }
+                            break;
+                        case "Hard":
+                            if (!CheckForHard())
+                            {
+                                continue;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                
 
                 if (Questions.All(q => q.Word.Id != word.Id))
                 {
@@ -60,7 +66,7 @@ namespace ZTPwords.Logic.Iterator
 
         private bool CheckForEasy()
         {
-            if (Mode=="Eng")
+            if (mode=="pl")
             {
 
                 if (word.WordEn.Length<6)
@@ -81,7 +87,7 @@ namespace ZTPwords.Logic.Iterator
         private bool CheckForMedium()
         {
 
-            if (Mode == "Eng")
+            if (mode == "Eng")
             {
 
                 if (word.WordEn.Length >6 && word.WordEn.Length <12)
@@ -102,7 +108,7 @@ namespace ZTPwords.Logic.Iterator
         private bool CheckForHard()
         {
 
-            if (Mode == "Eng")
+            if (mode == "Eng")
             {
 
                 if (word.WordEn.Length > 10 )
