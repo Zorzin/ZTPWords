@@ -11,8 +11,8 @@ namespace ZTPwords.Models
 
         public class QuestionModel
         { 
-        public Word Word { get; set; }
-        public Answers Answers { get; set; }
+            public Word Word { get; set; }
+            public Answers Answers { get; set; }
         }
 
         public class AnsweredQuestionModel

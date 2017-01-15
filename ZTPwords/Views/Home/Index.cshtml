@@ -1,4 +1,5 @@
-﻿@{
+﻿@using ZTPwords.Controllers
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -14,14 +15,14 @@
             Don't know Polish/English? Just learn it in a very fast way!
         </p>
         <p>
-            <a class="btn btn-success col-md-12" href="http://go.microsoft.com/fwlink/?LinkId=301865">Begin test &raquo;</a>
+            @Html.ActionLink("Begin test", "SelectDifficulty", "Words", new { mode = "learning" }, new { @class = "btn btn-success" })
         </p>
     </div>
     <div class="col-md-6">
         <h2>Test mode</h2>
         <p>Test your mad skills.</p>
         <p>
-            <a class="btn btn-success col-md-12" href="http://go.microsoft.com/fwlink/?LinkId=301866">Begin test &raquo;</a>
+            @Html.ActionLink("Begin test", "SelectDifficulty", "Words", new { mode = "test" }, new { @class = "btn btn-success" })
         </p>
     </div>
 </div>

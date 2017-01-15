@@ -1,50 +1,150 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
+using ZTPwords.Logic.Connector;
+using ZTPwords.Logic.State;
 using ZTPwords.Models;
+using static System.String;
 using static ZTPwords.Models.QuestionViewModels;
 
 namespace ZTPwords.Controllers
 {
+    public enum QuestionHandling
+    {
+        WrongAnswer,
+        CorrectAnswer,
+        NoMoreQuestions,
+    }
     public class WordsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private Context context = new Context();
 
-        // GET: Words
-        public ActionResult Index()
+        public ActionResult Question()
         {
-            return View(db.Words.ToList());
-        }
+            AnswersQuestionConnector connector = (AnswersQuestionConnector) Session["connector"];
+            if (connector==null)
+            {
+                connector = new AnswersQuestionConnector();
+                Session["connector"] = connector;
+            }
+            var question = connector.GetQuestion();
 
-
-        public ActionResult Question() //QuestionModel qvm
-        {
-            //AnsweredQuestionModel aqm = new AnsweredQuestionModel()
-            //{
-            //    Answers = qvm.Answers,
-            //    Word = qvm.Word,
-            //    AnswerId = -1
-            //};
-            AnsweredQuestionModel aqm = new AnsweredQuestionModel();
+            if (question==null)
+            {
+                return RedirectToAction("Summary");
+            }
+            AnsweredQuestionModel aqm = new AnsweredQuestionModel()
+            {
+                Answers = question.Answers,
+                Word = question.Word
+            };
             return View(aqm); //aqm
         }
 
         [HttpPost]
         public ActionResult Question(AnsweredQuestionModel aqm)
         {
-            if (aqm.AnswerId !=-1)
+
+            if (aqm.AnswerId != -1)
             {
-                var userAnswer = aqm.Answers.getAnswerList()[aqm.AnswerId];
-                //SomeStrategryFunction(userAnswer);
-                //logic here
+                var mode = (StateMode) Session["mode"];
+                var result = context.GetState().AnswerQuestion(aqm);
+
+                //Check result
             }
             ViewBag.NoAnswer = "Pick answer";
             return View(aqm);
+        }
+
+        public ActionResult Summary()
+        {
+
+            //Somewhere at the end
+            Session["connector"] = null;
+            return View();
+        }
+
+        public ActionResult SelectLanguage()
+        {
+            return View();
+        }
+        
+        public ActionResult ConfirmSelectLanguage(string language)
+        {
+            if (!string.IsNullOrEmpty(language))
+            {
+                if (language=="pl")
+                {
+                    Session["lang"] = "pl";
+                    return RedirectToAction("Question");
+                }
+                else if (language == "eng")
+                {
+                    Session ["lang"] = "en";
+                    return RedirectToAction("Question");
+                }
+            }
+            return RedirectToAction("SelectLanguage");
+        }
+
+
+        public ActionResult SelectDifficulty()
+        {
+            switch (Request.QueryString["mode"])
+            {
+                case "learning":
+                    context.ChangeState(State.Learning);
+                    break;
+                case "test":
+                    context.ChangeState(State.Test);
+                    break;
+            }
+            Session["mode"] = context.GetState();
+            return View();
+        }
+
+        public ActionResult ConfirmDifficulty()
+        {
+            if (Request.QueryString["difficulty"] != null)
+            {
+                Session["difficulty"] = Request.QueryString["difficulty"];
+                return RedirectToAction("SelectLanguage");
+            }
+            return RedirectToAction("SelectDifficulty");
+        }
+
+        [Authorize]
+        // GET: Words
+        public ActionResult Index(string currentFilter, string searchString, int? page)
+        {
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var words = db.Words.ToList();
+
+            if (!IsNullOrEmpty(searchString))
+            {
+                words = words.Where(x => x.WordEn.Contains(searchString) || x.WordPl.Contains(searchString)).ToList();
+            }
+
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            return View(words.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Words/Details/5
