@@ -23,24 +23,24 @@ namespace ZTPwords.Logic
         public override void buildRandWord()
         {
             Word w = null;
-            while (correctAnswer != w)
+            do
             {
                 w = db.Words.OrderBy(t => Guid.NewGuid())
                              .FirstOrDefault();
 
-            }
+            } while (correctAnswer == w);
             list.Add(w);
 
         }
         public override void buildSpecialWord()
         {
             Word w = null;
-            while (correctAnswer != w)
+            do
             {
-                w = db.Words.Where(ww=> ww.WordEn==correctAnswer.WordEn).OrderBy(ww => Guid.NewGuid())
+                w = db.Words.Where(ww => ww.WordEn.Substring(0, 1).ToUpper() == correctAnswer.WordEn.Substring(0, 1).ToUpper()).OrderBy(ww => Guid.NewGuid())
                              .FirstOrDefault();
 
-            }
+            } while (correctAnswer == w);
             list.Add(w);
         }
 
