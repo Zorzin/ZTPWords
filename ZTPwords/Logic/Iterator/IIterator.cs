@@ -11,7 +11,7 @@ namespace ZTPwords.Logic.Iterator
     interface IIterator
     {
         QuestionModel First();
-        QuestionModel Next();
+        Word Next();
         bool IsDone();
         QuestionModel CurrentItem();
 

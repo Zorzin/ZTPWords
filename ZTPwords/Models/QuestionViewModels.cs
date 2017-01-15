@@ -13,7 +13,6 @@ namespace ZTPwords.Models
         { 
             public Word Word { get; set; }
             public Answers Answers { get; set; }
-            public string Mode { get; set; } 
         }
 
         public class AnsweredQuestionModel

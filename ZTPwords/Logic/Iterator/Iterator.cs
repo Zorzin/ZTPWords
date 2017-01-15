@@ -20,7 +20,7 @@ namespace ZTPwords.Logic.Iterator
             return Questions[0];
         }
 
-        public QuestionModel Next()
+        public Word Next()
         {
             while (true)
             {
@@ -59,7 +59,7 @@ namespace ZTPwords.Logic.Iterator
 
                 if (Questions.All(q => q.Word.Id != word.Id))
                 {
-                    return new QuestionModel() {Word = word};
+                    return word;
                 }
             }
         }
