@@ -51,10 +51,10 @@ namespace ZTPwords.Controllers
         [HttpPost]
         public ActionResult Question(AnsweredQuestionModel aqm)
         {
-
+            
             if (aqm.AnswerId != -1)
             {
-                var mode = (StateMode) Session["mode"];
+                var mode = (Context) Session["mode"];
                 var result = context.GetState().AnswerQuestion(aqm);
 
                 //Check result
@@ -106,7 +106,7 @@ namespace ZTPwords.Controllers
                     context.ChangeState(State.Test);
                     break;
             }
-            Session["mode"] = context.GetState();
+            Session["mode"] = context;
             return View();
         }
 
