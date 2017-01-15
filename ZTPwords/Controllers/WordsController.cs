@@ -20,6 +20,7 @@ namespace ZTPwords.Controllers
         WrongAnswer,
         CorrectAnswer,
         NoMoreQuestions,
+
     }
     public class WordsController : Controller
     {
@@ -46,6 +47,7 @@ namespace ZTPwords.Controllers
             {
                 mode = "test";
             }
+            ViewBag.Points = state.GetPoints();
             if (question==null)
             {
                 return RedirectToAction("Summary");
@@ -64,7 +66,7 @@ namespace ZTPwords.Controllers
         [HttpPost]
         public ActionResult Question(QuestionViewModels.AnsweredQuestionModel model)
         {
-            
+            double points = 0;
             if (model.AnswerId != -1)
             {
                 model.Answers = (Answers) Session["answers"];
@@ -80,8 +82,14 @@ namespace ZTPwords.Controllers
                     ViewBag.NoAnswer = "Wrong answer";
                     return View(model);
                 }
-                else
+                if(state is TestState)
                 {
+                    if (result == QuestionHandling.CorrectAnswer)
+                    {
+                        state.SetPoints(1);
+                        Debug.WriteLine(points);
+                    }
+                    
                     return RedirectToAction("Question");
                 }
                 

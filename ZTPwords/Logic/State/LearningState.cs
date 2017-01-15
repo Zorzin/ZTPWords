@@ -28,5 +28,15 @@ namespace ZTPwords.Logic.State
                     return QuestionHandling.WrongAnswer;
             }
         }
+
+        public void SetPoints(double point)
+        {
+            //do nothing
+        }
+
+        public double GetPoints()
+        {
+            return 0;
+        }
     }
 }
