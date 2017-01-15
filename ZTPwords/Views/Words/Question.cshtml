@@ -11,49 +11,33 @@
         <h2 style="color: red; text-align: center;">@ViewBag.NoAnswer</h2>
     }
 
-<div class="maindiv">
-    
-    <div class="panel panel-default">
-        <div class="panel-body">
-            Select the word that corresponds to "słowo"
-            @* @Model.Word *@
-        </div>
-    </div>
-    
-    <div class="panel-group" >
-        <a class="answerpanel">
-            <div class="panel panel-default answerpanelbody" id="0">
-                <div class="panel-body">
-                    WORD 1
-                </div>
-            </div>
-        </a>
+    <div class="maindiv">
         
-        <a class="answerpanel">
-            <div class="panel panel-default answerpanelbody" id="1">
-                <div class="panel-body">
-                    WORD 2
-                </div>
-            </div>
-        </a>
 
-        <a class="answerpanel">
-            <div class="panel panel-default answerpanelbody" id="2">
-                <div class="panel-body">
-                    WORD 3
-                </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                Select the word that corresponds to @Model.Word.WordEn
+                
             </div>
-        </a>
+        </div>
+        @{
+            int i = 0;
+        }
+        @foreach (var answer in Model.Answers.getAnswerList())
+        {
+            <div class="panel-group">
+                <a class="answerpanel">
+                    <div class="panel panel-default answerpanelbody" id="i++">
+                        <div class="panel-body">
+                            @answer.WordPl
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
 
-        <a class="answerpanel"> 
-            <div class="panel panel-default answerpanelbody" id="3">
-                <div class="panel-body">
-                    WORD 4
-                </div>
-            </div>
-        </a>
+       
     </div>
-</div>
     @Html.TextBoxFor(model=>model.AnswerId,new {id="answer", style="display:none;"})
     <input type="submit" class="btn btn-success" value="Submit" style="margin-top: 20px;" disabled="disabled" id="submitButton"/>
 }

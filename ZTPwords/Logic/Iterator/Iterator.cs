@@ -5,6 +5,8 @@ using System.Linq;
 using System.Web;
 using Microsoft.ApplicationInsights.Extensibility.Implementation;
 using Troschuetz.Random;
+using ZTPwords.Controllers;
+using ZTPwords.Logic.State;
 using ZTPwords.Models;
 using static ZTPwords.Models.QuestionViewModels;
 
@@ -14,6 +16,7 @@ namespace ZTPwords.Logic.Iterator
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         public List<QuestionModel> Questions;
+        private TRandom r;
         private Word word;
         private string mode;
         public QuestionModel First()
@@ -23,9 +26,12 @@ namespace ZTPwords.Logic.Iterator
 
         public Word Next()
         {
+            if (r==null)
+            {
+                r = new TRandom();
+            }
             while (true)
             {
-                var r = new TRandom();
                 int id = r.Next(0, 66366);
                 word = db.Words.Find(id);
                 mode = (string)System.Web.HttpContext.Current.Session["lang"];
@@ -34,19 +40,19 @@ namespace ZTPwords.Logic.Iterator
                 {
                     switch (level)
                     {
-                        case "Easy":
+                        case "easy":
                             if (!CheckForEasy())
                             {
                                 continue;
                             }
                             break;
-                        case "Medium":
+                        case "medium":
                             if (!CheckForMedium())
                             {
                                 continue;
                             }
                             break;
-                        case "Hard":
+                        case "hard":
                             if (!CheckForHard())
                             {
                                 continue;
@@ -129,6 +135,10 @@ namespace ZTPwords.Logic.Iterator
 
         public bool IsDone()
         {
+
+            var type = (StateMode)System.Web.HttpContext.Current.Session ["mode"];
+            
+
             if (Questions.Count == 10)
             {
                 return true;
