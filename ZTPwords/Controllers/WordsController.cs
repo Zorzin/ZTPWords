@@ -11,7 +11,6 @@ using ZTPwords.Logic.Connector;
 using ZTPwords.Logic.State;
 using ZTPwords.Models;
 using static System.String;
-using static ZTPwords.Models.QuestionViewModels;
 
 namespace ZTPwords.Controllers
 {
@@ -40,27 +39,28 @@ namespace ZTPwords.Controllers
             {
                 return RedirectToAction("Summary");
             }
-            AnsweredQuestionModel aqm = new AnsweredQuestionModel()
+            QuestionViewModels.AnsweredQuestionModel model = new QuestionViewModels.AnsweredQuestionModel()
             {
                 Answers = question.Answers,
                 Word = question.Word
             };
-            return View(aqm); //aqm
+            return View(model); //model
         }
 
         [HttpPost]
-        public ActionResult Question(AnsweredQuestionModel aqm)
+        [ActionName("Question")]
+        public ActionResult QuestionPost(QuestionViewModels.AnsweredQuestionModel model)
         {
             
-            if (aqm.AnswerId != -1)
+            if (model.AnswerId != -1)
             {
                 var mode = (Context) Session["mode"];
-                var result = mode.GetState().AnswerQuestion(aqm);
+                var result = mode.GetState().AnswerQuestion(model);
 
                 //Check result
             }
             ViewBag.NoAnswer = "Pick answer";
-            return View(aqm);
+            return View(model);
         }
 
         public ActionResult Summary()
@@ -78,17 +78,16 @@ namespace ZTPwords.Controllers
         
         public ActionResult ConfirmSelectLanguage(string language)
         {
-            if (!string.IsNullOrEmpty(language))
+            if (!IsNullOrEmpty(language))
             {
-                if (language=="pl")
+                switch (language)
                 {
-                    Session["lang"] = "pl";
-                    return RedirectToAction("Question");
-                }
-                else if (language == "eng")
-                {
-                    Session ["lang"] = "en";
-                    return RedirectToAction("Question");
+                    case "pl":
+                        Session["lang"] = "pl";
+                        return RedirectToAction("Question");
+                    case "eng":
+                        Session ["lang"] = "en";
+                        return RedirectToAction("Question");
                 }
             }
             return RedirectToAction("SelectLanguage");
