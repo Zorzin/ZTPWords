@@ -138,9 +138,9 @@ namespace ZTPwords.Logic.Iterator
 
             var type = (Context)HttpContext.Current.Session ["mode"];
             StateMode state = type.GetState();
-            if (state is TestState) //mam nadzieję ze to tak się sprawdza
+            if (state is LearningState) //mam nadzieję ze to tak się sprawdza
             {
-                Console.WriteLine("jest tego typu");
+                return false;
             }
 
             if (Questions.Count == 10)
