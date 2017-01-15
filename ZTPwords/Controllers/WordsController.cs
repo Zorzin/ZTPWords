@@ -100,9 +100,12 @@ namespace ZTPwords.Controllers
 
         public ActionResult Summary()
         {
+            var type = (Context)Session ["mode"];
+            StateMode state = type.GetState();
+            ViewBag.Points = state.GetPoints();
 
             //Somewhere at the end
-            Session["connector"] = null;
+            Session ["connector"] = null;
             return View();
         }
 

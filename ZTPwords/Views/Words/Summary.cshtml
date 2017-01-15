@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "Summary";
+}
+
+<h2>Summary</h2>
+
+<h2 style="text-align: center">You earned:</h2>
+<h1 style="text-align: center; color: red">@ViewBag.Points points</h1>
+<h2 style="text-align: center">out of 10</h2>
+
+@if (ViewBag.Points ==10)
+{
+  <h2 style="text-align: center"> Great job! You know every word from this pack!</h2>
+}
+else if (ViewBag.Points > 8)
+{
+    <h2 style="text-align: center"> Goog job! You know almost every word from this pack!</h2>
+}
+else if (ViewBag.Points > 5)
+{
+    <h2 style="text-align: center"> Keep learning! You knew more than half words from this pack!</h2>
+}
+else if (ViewBag.Points >= 0)
+{
+    <h2 style="text-align: center"> Keep learning! Your score is less than half of maximum points. Maybe change level?</h2>
+}
+
+@Html.ActionLink("Main Page","Index","Home",new {@class="btn btn-default btn-block"})

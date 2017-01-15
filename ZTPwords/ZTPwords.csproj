@@ -322,6 +322,7 @@
     <Content Include="Views\Words\Question.cshtml" />
     <Content Include="Views\Words\SelectDifficulty.cshtml" />
     <Content Include="Views\Words\SelectLanguage.cshtml" />
+    <Content Include="Views\Words\Summary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
