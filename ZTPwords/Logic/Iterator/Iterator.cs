@@ -136,8 +136,12 @@ namespace ZTPwords.Logic.Iterator
         public bool IsDone()
         {
 
-            var type = (StateMode)System.Web.HttpContext.Current.Session ["mode"];
-            
+            var type = (Context)HttpContext.Current.Session ["mode"];
+            StateMode state = type.GetState();
+            if (state is TestState) //mam nadzieję ze to tak się sprawdza
+            {
+                Console.WriteLine("jest tego typu");
+            }
 
             if (Questions.Count == 10)
             {
