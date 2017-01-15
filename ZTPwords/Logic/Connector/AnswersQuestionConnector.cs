@@ -6,27 +6,30 @@ namespace ZTPwords.Logic.Connector
 {
     public class AnswersQuestionConnector
     {
-        public List<QuestionModel> questions;
-        public QuestionModel Connect()
+        public List<QuestionModel> Questions;
+        private Iterator.Iterator _iterator;
+        public QuestionModel GetQuestion()
         {
-            var iterator = new Iterator.Iterator();
-
-            if (questions==null)
+            if (_iterator==null)
             {
-                questions = new List<QuestionModel>();
+                _iterator = new Iterator.Iterator();
             }
-            iterator.Questions = questions;
-            Word currentWord;
-            Answers answers;
-            if (!iterator.IsDone())
+            if (Questions==null)
             {
-                currentWord = iterator.Next();
-                answers = new Answers(currentWord,"");
-                return new QuestionModel()
+                Questions = new List<QuestionModel>();
+            }
+            _iterator.Questions = Questions;
+            if (!_iterator.IsDone())
+            {
+                var currentWord = _iterator.Next();
+                var answers = new Answers(currentWord,"");
+                var newquestion = new QuestionModel()
                 {
                     Answers = answers,
                     Word = currentWord
                 };
+                Questions.Add(newquestion);
+                return newquestion;
             }
             return null;
         }

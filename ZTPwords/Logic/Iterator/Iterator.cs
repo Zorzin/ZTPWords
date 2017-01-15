@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using Microsoft.ApplicationInsights.Extensibility.Implementation;
+using Troschuetz.Random;
 using ZTPwords.Models;
 using static ZTPwords.Models.QuestionViewModels;
 
@@ -24,7 +25,7 @@ namespace ZTPwords.Logic.Iterator
         {
             while (true)
             {
-                Random.Org.Random r = new Random.Org.Random();
+                var r = new TRandom();
                 int id = r.Next(0, 66366);
                 word = db.Words.Find(id);
                 mode = (string)System.Web.HttpContext.Current.Session["lang"];

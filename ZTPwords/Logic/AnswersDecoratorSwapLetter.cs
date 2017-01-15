@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using Troschuetz.Random;
 using ZTPwords.Models;
 
 namespace ZTPwords.Logic
@@ -22,7 +23,7 @@ namespace ZTPwords.Logic
             {
                 string s = temp[rand].WordEn;
 
-                Random.Org.Random swap = new Random.Org.Random();
+                var swap = new TRandom();
                 int position1 = swap.Next(1, s.Length - 1);
                 int position2 = swap.Next(1, s.Length - 1);
                 string tempString1 = s[position1].ToString();

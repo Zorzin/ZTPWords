@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Troschuetz.Random;
 using ZTPwords.Models;
 
 namespace ZTPwords.Logic
@@ -15,7 +16,7 @@ namespace ZTPwords.Logic
         public override List<Word> getAnswerList()
         {
             List<Word> temp = answers.getAnswerList();
-            Random.Org.Random rand = new Random.Org.Random();
+            var rand = new TRandom();
             int size = temp.Count;
             List<Word> temp2= new List<Word>();
             int tempSize = size;

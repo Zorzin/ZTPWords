@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using PagedList;
+using ZTPwords.Logic.Connector;
 using ZTPwords.Logic.State;
 using ZTPwords.Models;
 using static System.String;
@@ -25,15 +26,25 @@ namespace ZTPwords.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private Context context = new Context();
 
-        public ActionResult Question() //QuestionModel qvm
+        public ActionResult Question()
         {
-            //AnsweredQuestionModel aqm = new AnsweredQuestionModel()
-            //{
-            //    Answers = qvm.Answers,
-            //    Word = qvm.Word,
-            //    AnswerId = -1
-            //};
-            AnsweredQuestionModel aqm = new AnsweredQuestionModel();
+            AnswersQuestionConnector connector = (AnswersQuestionConnector) Session["connector"];
+            if (connector==null)
+            {
+                connector = new AnswersQuestionConnector();
+                Session["connector"] = connector;
+            }
+            var question = connector.GetQuestion();
+
+            if (question==null)
+            {
+                return RedirectToAction("Summary");
+            }
+            AnsweredQuestionModel aqm = new AnsweredQuestionModel()
+            {
+                Answers = question.Answers,
+                Word = question.Word
+            };
             return View(aqm); //aqm
         }
 
@@ -44,13 +55,20 @@ namespace ZTPwords.Controllers
             if (aqm.AnswerId != -1)
             {
                 var mode = (StateMode) Session["mode"];
-                var userAnswer = aqm.Answers.getAnswerList()[aqm.AnswerId];
-                //SomeStrategryFunction(userAnswer);
-                //logic here
                 var result = context.GetState().AnswerQuestion(aqm);
+
+                //Check result
             }
             ViewBag.NoAnswer = "Pick answer";
             return View(aqm);
+        }
+
+        public ActionResult Summary()
+        {
+
+            //Somewhere at the end
+            Session["connector"] = null;
+            return View();
         }
 
         public ActionResult SelectLanguage()
