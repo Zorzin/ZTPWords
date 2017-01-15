@@ -55,7 +55,7 @@ namespace ZTPwords.Controllers
             if (aqm.AnswerId != -1)
             {
                 var mode = (Context) Session["mode"];
-                var result = context.GetState().AnswerQuestion(aqm);
+                var result = mode.GetState().AnswerQuestion(aqm);
 
                 //Check result
             }
