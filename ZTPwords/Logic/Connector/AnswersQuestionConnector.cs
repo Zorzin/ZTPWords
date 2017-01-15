@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Web;
 using ZTPwords.Models;
 using static ZTPwords.Models.QuestionViewModels;
 
@@ -26,8 +27,12 @@ namespace ZTPwords.Logic.Connector
                 var newquestion = new QuestionModel()
                 {
                     Answers = answers,
-                    Word = currentWord
+                    Word = currentWord,
+                    QuestionNumber = Questions.Count
+                    
                 };
+
+                HttpContext.Current.Session["answers"] = answers;
                 Questions.Add(newquestion);
                 return newquestion;
             }

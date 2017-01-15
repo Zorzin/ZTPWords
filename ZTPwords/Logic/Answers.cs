@@ -9,7 +9,6 @@ namespace ZTPwords.Logic
     public class Answers : IAnswers
     {
         private List<Word> list;
-
         public Word correctAnswer { get; set; }
         public Answers(Word _correctAnswer,string buildingScheme)
         {
@@ -26,7 +25,7 @@ namespace ZTPwords.Logic
             director.Construct(builder,5,3);
             list = builder.getResult();
         }
-
+        
         public override List<Word> getAnswerList()
         {
             return list;

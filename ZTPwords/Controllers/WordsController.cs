@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using PagedList;
+using ZTPwords.Logic;
 using ZTPwords.Logic.Connector;
 using ZTPwords.Logic.State;
 using ZTPwords.Models;
@@ -34,7 +35,17 @@ namespace ZTPwords.Controllers
                 Session["connector"] = connector;
             }
             var question = connector.GetQuestion();
-
+            var type = (Context)Session ["mode"];
+            string mode;
+            StateMode state = type.GetState();;
+            if (state is LearningState)
+            {
+                mode = "learn";
+            }
+            else
+            {
+                mode = "test";
+            }
             if (question==null)
             {
                 return RedirectToAction("Summary");
@@ -42,22 +53,38 @@ namespace ZTPwords.Controllers
             QuestionViewModels.AnsweredQuestionModel model = new QuestionViewModels.AnsweredQuestionModel()
             {
                 Answers = question.Answers,
-                Word = question.Word
+                Word = question.Word,
+                QuestionNumber = question.QuestionNumber+1,
+                Mode = mode,
+                Lang = (string) Session["lang"]
             };
             return View(model); //model
         }
 
         [HttpPost]
-        [ActionName("Question")]
-        public ActionResult QuestionPost(QuestionViewModels.AnsweredQuestionModel model)
+        public ActionResult Question(QuestionViewModels.AnsweredQuestionModel model)
         {
             
             if (model.AnswerId != -1)
             {
-                var mode = (Context) Session["mode"];
-                var result = mode.GetState().AnswerQuestion(model);
-
-                //Check result
+                model.Answers = (Answers) Session["answers"];
+                var type = (Context)Session ["mode"];
+                StateMode state = type.GetState();
+                var result = type.GetState().AnswerQuestion(model);
+                if (state is LearningState) //mam nadzieję ze to tak się sprawdza
+                {
+                    if (result == QuestionHandling.CorrectAnswer)
+                    {
+                        return RedirectToAction("Question");
+                    }
+                    ViewBag.NoAnswer = "Wrong answer";
+                    return View(model);
+                }
+                else
+                {
+                    return RedirectToAction("Question");
+                }
+                
             }
             ViewBag.NoAnswer = "Pick answer";
             return View(model);
@@ -78,6 +105,8 @@ namespace ZTPwords.Controllers
         
         public ActionResult ConfirmSelectLanguage(string language)
         {
+
+            Session ["connector"] = null;
             if (!IsNullOrEmpty(language))
             {
                 switch (language)
@@ -96,6 +125,8 @@ namespace ZTPwords.Controllers
 
         public ActionResult SelectDifficulty()
         {
+
+            Session ["connector"] = null;
             switch (Request.QueryString["mode"])
             {
                 case "learning":
@@ -111,6 +142,8 @@ namespace ZTPwords.Controllers
 
         public ActionResult ConfirmDifficulty()
         {
+
+            Session ["connector"] = null;
             if (Request.QueryString["difficulty"] != null)
             {
                 Session["difficulty"] = Request.QueryString["difficulty"];

@@ -1,43 +1,69 @@
 ﻿@model ZTPwords.Models.QuestionViewModels.AnsweredQuestionModel
 
-@using (Html.BeginForm())
-{
  
-<h2 style="text-align: center">Question 1/10</h2>
+@if (Model.Mode == "learn")
+{
+    <h2 style="text-align: center">Question @Model.QuestionNumber</h2>
+}
+else
+{
+    <h2 style="text-align: center">Question @Model.QuestionNumber/10</h2>
+}
 
 
-    if (ViewBag.NoAnswer != null)
+    @if (ViewBag.NoAnswer != null)
     {
         <h2 style="color: red; text-align: center;">@ViewBag.NoAnswer</h2>
     }
 
+@using (Html.BeginForm("Question", "Words", FormMethod.Post))
+{
     <div class="maindiv">
-        
-
         <div class="panel panel-default">
             <div class="panel-body">
-                Select the word that corresponds to @Model.Word.WordEn
-                
+                @if (Model.Lang == "pl")
+                {
+                    @Html.Raw("Select the word that corresponds to: " + @Model.Word.WordEn);
+                }
+                else
+                {
+                    @Html.Raw("Podaj słowo odpowiadające słowu: " + @Model.Word.WordPl);
+                }
+
             </div>
         </div>
         @{
             int i = 0;
         }
+
         @foreach (var answer in Model.Answers.getAnswerList())
         {
             <div class="panel-group">
                 <a class="answerpanel">
-                    <div class="panel panel-default answerpanelbody" id="@i++">
+                    <div class="panel panel-default answerpanelbody" id=@i>
                         <div class="panel-body">
-                            @answer.WordPl
+                            @if (Model.Lang == "pl")
+                            {
+                                @Html.Raw(answer.WordPl)
+                            }
+                            else
+                            {
+                                @Html.Raw(answer.WordEn)
+                            }
                         </div>
                     </div>
                 </a>
             </div>
+            {
+                i++;
+            }   
         }
-
-       
     </div>
+    @Html.HiddenFor(model=>model.Word.Id)
+    @Html.HiddenFor(model => model.Word.WordEn)
+    @Html.HiddenFor(model => model.Word.WordPl)
+    @Html.HiddenFor(model=>model.QuestionNumber)
+    @Html.HiddenFor(model=>model.Mode)
     @Html.TextBoxFor(model=>model.AnswerId,new {id="answer", style="display:none;"})
     <input type="submit" class="btn btn-success" value="Submit" style="margin-top: 20px;" disabled="disabled" id="submitButton"/>
 }
