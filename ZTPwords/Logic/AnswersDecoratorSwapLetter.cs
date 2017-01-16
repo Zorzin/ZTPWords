@@ -18,9 +18,15 @@ namespace ZTPwords.Logic
         {
             List<Word> temp = answers.getAnswerList();
             var size = temp.Count;
-            var rand = new System.Random().Next() % size;
-            if (true)
+            int rand;
+            Answers a = (Answers)answers;
+            do
             {
+                rand = new System.Random().Next() % size;
+            } while (a.correctAnswer == temp[rand]);
+
+
+
                 string s = temp[rand].WordEn;
 
                 var swap = new TRandom();
@@ -45,7 +51,6 @@ namespace ZTPwords.Logic
                 s = s.Remove(position2, 1);
                 s = s.Insert(position2, tempString1);
                 temp[rand].WordPl = s;
-            }
             return temp;
         }
     }
