@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Diagnostics;
@@ -103,6 +104,7 @@ namespace ZTPwords.Controllers
 
         public ActionResult Summary()
         {
+            ViewBag.MaxLvlPoints = GetMaxLvlPoints();
             var type = (Context)Session ["mode"];
             StateMode state = type.GetState();
             var points = state.GetPoints();
@@ -117,6 +119,22 @@ namespace ZTPwords.Controllers
             ViewBag.MaxPoints = GetMaxPoints();
             Session ["connector"] = null;
             return View();
+        }
+
+        public double GetMaxLvlPoints()
+        {
+            var username = System.Web.HttpContext.Current.User.Identity.Name;
+            var user = db.getUser(username);
+            var userlvl = user.Level;
+            if (userlvl==1)
+            {
+                return 80;
+            }
+            if(userlvl==2)
+            {
+                return 120;
+            }
+            return 200;
         }
 
         public double GetMaxPoints()
