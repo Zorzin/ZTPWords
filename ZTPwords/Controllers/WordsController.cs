@@ -124,13 +124,13 @@ namespace ZTPwords.Controllers
             var mode = (string)System.Web.HttpContext.Current.Session ["lang"];
             var username = System.Web.HttpContext.Current.User.Identity.Name;
             var user = db.getUser(username);
-            var userlang = user.Language;
-            if (userlang == mode)
-            {
+           // var userlang = user.Language;
+           // if (userlang == mode)
+           // {
                 //more points
                 return 15;
-            }
-            return 10;
+           // }
+           // return 10;
         }
 
         public ActionResult SelectLanguage()

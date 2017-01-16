@@ -16,14 +16,13 @@ namespace ZTPwords.Logic
 
         public override List<Word> getAnswerList()
         {
-            List<Word> temp = answers.getAnswerList();
+            List<Word> temp = base.answers.getAnswerList();
             var size = temp.Count;
             int rand;
-            Answers a = (Answers)answers;
             do
             {
                 rand = new System.Random().Next() % size;
-            } while (a.correctAnswer == temp[rand]);
+            } while (answers.correctAnswer == temp[rand]);
 
 
 

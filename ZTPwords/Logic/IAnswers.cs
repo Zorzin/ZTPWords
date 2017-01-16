@@ -8,6 +8,7 @@ namespace ZTPwords.Logic
 {
     public abstract class IAnswers
     {
+        public Word correctAnswer { get; set; }
         public abstract List<Word> getAnswerList();
     }
 }

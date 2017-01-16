@@ -51,8 +51,8 @@ namespace ZTPwords.Migrations
                 string json;
                 List<Item> objects = new List<Item>();
                 
-                string path = AppDomain.CurrentDomain.BaseDirectory; 
-                for (int i = 0; i < 1075; i++)
+                string path = AppDomain.CurrentDomain.BaseDirectory;
+                /*for (int i = 0; i < 1075; i++)
                 {
                     objects.Clear();
                     using (StreamReader reader = new StreamReader(path+"/Words/json"+i+".json"))
@@ -70,9 +70,9 @@ namespace ZTPwords.Migrations
                             context.SaveChanges();
                         }
                     }
-                }
+                }*/
             }
-            
+
         }
 
         private void SeedRoles(ZTPwords.Models.ApplicationDbContext context)

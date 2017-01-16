@@ -18,8 +18,17 @@ namespace ZTPwords.Logic.Adapter
         }
         public Word getSameLetterWord(Word correctAnswer)
         {
-            return db.Words.Where(ww => ww.WordEn.Substring(0, 1).ToUpper() == correctAnswer.WordEn.Substring(0, 1).ToUpper()).OrderBy(ww => Guid.NewGuid())
-                             .FirstOrDefault();
+            var mode = (string)System.Web.HttpContext.Current.Session["lang"];
+            if (mode == "en")
+            {
+                return db.Words.Where(ww => ww.WordEn.Substring(0, 1).ToUpper() == correctAnswer.WordEn.Substring(0, 1).ToUpper()).OrderBy(ww => Guid.NewGuid())
+                            .FirstOrDefault();
+            }else
+            {
+                return db.Words.Where(ww => ww.WordPl.Substring(0, 1).ToUpper() == correctAnswer.WordPl.Substring(0, 1).ToUpper()).OrderBy(ww => Guid.NewGuid())
+                           .FirstOrDefault();
+            }
+           
         }
 
         public Word getSameLengthWord(Word correctAnswer)
@@ -59,6 +68,5 @@ namespace ZTPwords.Logic.Adapter
         {
             db.Words.Remove(word);
         }
-
     }
 }

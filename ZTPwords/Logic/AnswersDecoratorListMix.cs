@@ -22,7 +22,7 @@ namespace ZTPwords.Logic
             int tempSize = size;
             for (int i=0;i< tempSize; i++)
             {
-                int randd = rand.Next(0, size);
+                int randd = rand.Next()%size;
                 temp2.Add(temp[randd]);
                 temp.RemoveAt(randd);
                 size = temp.Count;

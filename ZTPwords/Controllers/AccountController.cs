@@ -163,6 +163,8 @@ namespace ZTPwords.Controllers
                 {
                     lang = "pl";
                 }
+                var list = new List<string>() { "English", "Polish" };
+                ViewBag.Languages = new SelectList(list);
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Level = 1, Points = 0,Language = lang};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
