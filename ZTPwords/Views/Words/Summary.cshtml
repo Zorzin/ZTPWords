@@ -23,7 +23,8 @@
 <h2 style="text-align: center">with @ViewBag.userPoints points!</h2>
 
 @{
-    var percentLvl = (@ViewBag.userPoints*100)/@ViewBag.MaxLvlPoints;
+    double percentLvl = (@ViewBag.userPoints*100)/@ViewBag.MaxLvlPoints;
+    percentLvl = Math.Round(percentLvl);
 
     <div class="progress">
         <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="@ViewBag.userPoints" aria-valuemin="0" aria-valuemax="@ViewBag.MaxLvlPoints" style="width: @percentLvl%">

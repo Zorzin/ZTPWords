@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using ZTPwords.Logic.Adapter;
 using ZTPwords.Models;
 
 namespace ZTPwords.Controllers
@@ -67,6 +68,7 @@ namespace ZTPwords.Controllers
             var user = UserManager.FindById(userId);
             ViewBag.Level = user.Level;
             ViewBag.Points = user.Points;
+            ViewBag.MaxLvlPoints = GetMaxLvlPoints();
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
@@ -76,6 +78,22 @@ namespace ZTPwords.Controllers
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
             return View(model);
+        }
+
+        public double GetMaxLvlPoints()
+        {
+            var userId = User.Identity.GetUserId();
+            var user = UserManager.FindById(userId);
+            var userlvl = user.Level;
+            if (userlvl == 1)
+            {
+                return 80;
+            }
+            if (userlvl == 2)
+            {
+                return 120;
+            }
+            return 200;
         }
 
         //
