@@ -11,6 +11,7 @@
 
 @{
     var percent = (@ViewBag.Points*100)/@ViewBag.MaxPoints;
+    percent = Math.Round(percent);
 
     <div class="progress">
         <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="@ViewBag.Points" aria-valuemin="0" aria-valuemax="@ViewBag.MaxPoints" style="width: @percent%">
