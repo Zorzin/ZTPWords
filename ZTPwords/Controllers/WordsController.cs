@@ -31,6 +31,7 @@ namespace ZTPwords.Controllers
 
         public ActionResult Question()
         {
+            ViewBag.MaxPoints = GetMaxPoints();
             AnswersQuestionConnector connector = (AnswersQuestionConnector) Session["connector"];
             if (connector==null)
             {
@@ -113,8 +114,23 @@ namespace ZTPwords.Controllers
             db.SaveChanges();
             ViewBag.Level = user.Level;
             ViewBag.userPoints = user.Points;
+            ViewBag.MaxPoints = GetMaxPoints();
             Session ["connector"] = null;
             return View();
+        }
+
+        public double GetMaxPoints()
+        {
+            var mode = (string)System.Web.HttpContext.Current.Session ["lang"];
+            var username = System.Web.HttpContext.Current.User.Identity.Name;
+            var user = db.getUser(username);
+            var userlang = user.Language;
+            if (userlang == mode)
+            {
+                //more points
+                return 15;
+            }
+            return 10;
         }
 
         public ActionResult SelectLanguage()

@@ -7,23 +7,23 @@
 
 <h2 style="text-align: center">You earned:</h2>
 <h1 style="text-align: center; color: red">@ViewBag.Points points</h1>
-<h2 style="text-align: center">out of 10</h2>
+<h2 style="text-align: center">out of @ViewBag.MaxPoints</h2>
 
-@if (ViewBag.Points ==10)
+@if (ViewBag.Points == ViewBag.MaxPoints)
 {
   <h2 style="text-align: center"> Excelent job! You know every word from this pack!</h2>
 }
-else if (ViewBag.Points > 8)
+else if (ViewBag.Points > (ViewBag.MaxPoints*0.8))
 {
     <h2 style="text-align: center"> Great job! You know almost every word from this pack!</h2>
 }
-else if (ViewBag.Points > 5)
+else if (ViewBag.Points > (ViewBag.MaxPoints*0.5))
 {
     <h2 style="text-align: center"> Good job! You knew more than half words from this pack!</h2>
 }
 else if (ViewBag.Points >= 0)
 {
-    <h2 style="text-align: center"> Keep learning! Your score is less than half of maximum points. Maybe change level?</h2>
+    <h2 style="text-align: center"> Keep learning! Your score is less than half of maximum points.</h2>
 }
 
 <h2 style="text-align: center" >You are now on level @ViewBag.Level</h2>

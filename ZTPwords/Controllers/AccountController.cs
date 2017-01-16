@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -139,6 +140,8 @@ namespace ZTPwords.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            var list = new List<string>() {"English", "Polish"};
+            ViewBag.Languages = new SelectList(list);
             return View();
         }
 
@@ -151,7 +154,16 @@ namespace ZTPwords.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Level = 1, Points = 0};
+                string lang;
+                if (model.Language == "English")
+                {
+                    lang = "en";
+                }
+                else
+                {
+                    lang = "pl";
+                }
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Level = 1, Points = 0,Language = lang};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

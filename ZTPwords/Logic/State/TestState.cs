@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ZTPwords.Controllers;
+using ZTPwords.Logic.Adapter;
 using ZTPwords.Models;
 
 namespace ZTPwords.Logic.State
 {
     public class TestState : StateMode
     {
+        private DatabaseConnection db = new DatabaseConnection();
         private double Points { get; set; }
         public QuestionHandling AnswerQuestion(QuestionViewModels.AnsweredQuestionModel model)
         {
@@ -40,12 +42,25 @@ namespace ZTPwords.Logic.State
 
         public void SetPoints(double point)
         {
+
+            var mode = (string)System.Web.HttpContext.Current.Session ["lang"];
+            var username = HttpContext.Current.User.Identity.Name;
+            var user = db.getUser(username);
+            var userlang = user.Language;
+            if (userlang == mode)
+            {
+                //more points
+                point = point*1.5;
+            }
             Points += point;
         }
+        
 
         public double GetPoints()
         {
             return Points;
         }
+
+        
     }
 }
