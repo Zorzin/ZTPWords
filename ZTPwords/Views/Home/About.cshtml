@@ -3,15 +3,5 @@
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
-@{
-    var items= ViewBag.list;
-}
-@if (items != null)
-{
-    foreach (string s in items)
-    {
-        <h1>@s.ToString()</h1>
-    }
-}
 
 <p>Use this area to provide additional information.</p>

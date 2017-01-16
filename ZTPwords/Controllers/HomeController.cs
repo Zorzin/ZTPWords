@@ -19,11 +19,6 @@ namespace ZTPwords.Controllers
         {
             
             ViewBag.Message = "Your application description page.";
-            Word w = new Word();
-            w.WordEn = "dog";
-            w.WordPl = "pies";
-            IAnswers al =new AnswersDecoratorSwapLetter(new AnswersDecoratorListMix( new Answers(w,"SameLetter")));
-            ViewBag.list = al.getAnswerList();
             return View();
         }
 
