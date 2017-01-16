@@ -214,7 +214,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\StrategyController.cs" />
     <Compile Include="Controllers\WordsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -235,6 +234,7 @@
     <Compile Include="Logic\State\LearningState.cs" />
     <Compile Include="Logic\State\StateMode.cs" />
     <Compile Include="Logic\State\TestState.cs" />
+    <Compile Include="Logic\UserLevel\LevelChecker.cs" />
     <Compile Include="Migrations\201701121946196_InitialCreate.cs" />
     <Compile Include="Migrations\201701121946196_InitialCreate.Designer.cs">
       <DependentUpon>201701121946196_InitialCreate.cs</DependentUpon>
@@ -323,10 +323,10 @@
     <Content Include="Views\Words\Question.cshtml" />
     <Content Include="Views\Words\SelectDifficulty.cshtml" />
     <Content Include="Views\Words\SelectLanguage.cshtml" />
+    <Content Include="Views\Words\Summary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Strategy\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

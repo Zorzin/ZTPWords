@@ -2,6 +2,7 @@
 using ZTPwords.Controllers;
 using ZTPwords.Models;
 
+
 namespace ZTPwords.Logic.State
 {
     public class LearningState : StateMode
@@ -9,7 +10,7 @@ namespace ZTPwords.Logic.State
         public QuestionHandling AnswerQuestion(QuestionViewModels.AnsweredQuestionModel model)
         {
             var id = model.AnswerId;
-            var list = model.Answers.getAnswerList();
+            var list = model.Answers;
             var word = model.Word;
 
             var lang = (string) HttpContext.Current.Session["lang"];
@@ -26,6 +27,16 @@ namespace ZTPwords.Logic.State
                 default:
                     return QuestionHandling.WrongAnswer;
             }
+        }
+
+        public void SetPoints(double point)
+        {
+            //do nothing
+        }
+
+        public double GetPoints()
+        {
+            return 0;
         }
     }
 }

@@ -64,6 +64,9 @@ namespace ZTPwords.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+            var user = UserManager.FindById(userId);
+            ViewBag.Level = user.Level;
+            ViewBag.Points = user.Points;
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),

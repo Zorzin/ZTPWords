@@ -5,6 +5,8 @@ using System.Linq;
 using System.Web;
 using Microsoft.ApplicationInsights.Extensibility.Implementation;
 using Troschuetz.Random;
+using ZTPwords.Controllers;
+using ZTPwords.Logic.State;
 using ZTPwords.Models;
 using static ZTPwords.Models.QuestionViewModels;
 
@@ -14,6 +16,7 @@ namespace ZTPwords.Logic.Iterator
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         public List<QuestionModel> Questions;
+        private TRandom r;
         private Word word;
         private string mode;
         public QuestionModel First()
@@ -23,30 +26,37 @@ namespace ZTPwords.Logic.Iterator
 
         public Word Next()
         {
+            if (r==null)
+            {
+                r = new TRandom();
+            }
             while (true)
             {
-                var r = new TRandom();
                 int id = r.Next(0, 66366);
                 word = db.Words.Find(id);
                 mode = (string)System.Web.HttpContext.Current.Session["lang"];
                 string level =(string) System.Web.HttpContext.Current.Session["difficulty"];
                 if (level!=null)
                 {
+                    if (level=="continious")
+                    {
+                        level = CheckLevel();
+                    }
                     switch (level)
                     {
-                        case "Easy":
+                        case "easy":
                             if (!CheckForEasy())
                             {
                                 continue;
                             }
                             break;
-                        case "Medium":
+                        case "medium":
                             if (!CheckForMedium())
                             {
                                 continue;
                             }
                             break;
-                        case "Hard":
+                        case "hard":
                             if (!CheckForHard())
                             {
                                 continue;
@@ -63,6 +73,23 @@ namespace ZTPwords.Logic.Iterator
                     return word;
                 }
             }
+        }
+
+        private string CheckLevel()
+        {
+            var username = HttpContext.Current.User.Identity.Name;
+            var user = db.Users.FirstOrDefault(u => u.UserName == username);
+            var level = user.Level;
+            if (level<5)
+            {
+                return "easy";
+            }
+            if (level <10)
+            {
+                return "medium";
+            }
+            return "hard";
+            
         }
 
         private bool CheckForEasy()
@@ -129,6 +156,14 @@ namespace ZTPwords.Logic.Iterator
 
         public bool IsDone()
         {
+
+            var type = (Context)HttpContext.Current.Session ["mode"];
+            StateMode state = type.GetState();
+            if (state is LearningState) //mam nadzieję ze to tak się sprawdza
+            {
+                return false;
+            }
+
             if (Questions.Count == 10)
             {
                 return true;
