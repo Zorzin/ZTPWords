@@ -12,14 +12,14 @@ namespace ZTPwords.Models
         public class QuestionModel
         { 
             public Word Word { get; set; }
-            public Answers Answers { get; set; }
+            public List<Word> Answers { get; set; }
             public int QuestionNumber { get; set; }
         }
 
         public class AnsweredQuestionModel
         {
             public Word Word { get; set; }
-            public Answers Answers { get; set; }
+            public List<Word> Answers { get; set; }
             public int AnswerId { get; set; }
             public int QuestionNumber { get; set; }
             public string Mode { get; set; }

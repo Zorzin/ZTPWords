@@ -23,7 +23,7 @@ namespace ZTPwords.Logic.Connector
             if (!_iterator.IsDone())
             {
                 var currentWord = _iterator.Next();
-                var answers = new Answers(currentWord,"");
+                var answers = new AnswersDecoratorListMix(new Answers(currentWord,"SameLetter")).getAnswerList();
                 var newquestion = new QuestionModel()
                 {
                     Answers = answers,

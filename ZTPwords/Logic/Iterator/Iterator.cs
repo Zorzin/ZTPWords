@@ -38,6 +38,10 @@ namespace ZTPwords.Logic.Iterator
                 string level =(string) System.Web.HttpContext.Current.Session["difficulty"];
                 if (level!=null)
                 {
+                    if (level=="continious")
+                    {
+                        level = CheckLevel();
+                    }
                     switch (level)
                     {
                         case "easy":
@@ -69,6 +73,23 @@ namespace ZTPwords.Logic.Iterator
                     return word;
                 }
             }
+        }
+
+        private string CheckLevel()
+        {
+            var username = HttpContext.Current.User.Identity.Name;
+            var user = db.Users.FirstOrDefault(u => u.UserName == username);
+            var level = user.Level;
+            if (level<5)
+            {
+                return "easy";
+            }
+            if (level <10)
+            {
+                return "medium";
+            }
+            return "hard";
+            
         }
 
         private bool CheckForEasy()

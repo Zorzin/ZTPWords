@@ -234,6 +234,7 @@
     <Compile Include="Logic\State\LearningState.cs" />
     <Compile Include="Logic\State\StateMode.cs" />
     <Compile Include="Logic\State\TestState.cs" />
+    <Compile Include="Logic\UserLevel\LevelChecker.cs" />
     <Compile Include="Migrations\201701121946196_InitialCreate.cs" />
     <Compile Include="Migrations\201701121946196_InitialCreate.Designer.cs">
       <DependentUpon>201701121946196_InitialCreate.cs</DependentUpon>

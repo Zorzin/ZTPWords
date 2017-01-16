@@ -10,6 +10,7 @@ using PagedList;
 using ZTPwords.Logic;
 using ZTPwords.Logic.Connector;
 using ZTPwords.Logic.State;
+using ZTPwords.Logic.UserLevel;
 using ZTPwords.Models;
 using static System.String;
 
@@ -69,7 +70,7 @@ namespace ZTPwords.Controllers
             double points = 0;
             if (model.AnswerId != -1)
             {
-                model.Answers = (Answers) Session["answers"];
+                model.Answers =  (List<Word>) Session["answers"];
                 var type = (Context)Session ["mode"];
                 StateMode state = type.GetState();
                 var result = type.GetState().AnswerQuestion(model);
@@ -102,9 +103,15 @@ namespace ZTPwords.Controllers
         {
             var type = (Context)Session ["mode"];
             StateMode state = type.GetState();
-            ViewBag.Points = state.GetPoints();
-
-            //Somewhere at the end
+            var points = state.GetPoints();
+            ViewBag.Points = points;
+            var username = User.Identity.Name;
+            var user = db.Users.FirstOrDefault(u => u.UserName == username);
+            var levelChecker = new LevelChecker();
+            levelChecker.CheckLevel(user, points);
+            db.SaveChanges();
+            ViewBag.Level = user.Level;
+            ViewBag.userPoints = user.Points;
             Session ["connector"] = null;
             return View();
         }
@@ -124,11 +131,13 @@ namespace ZTPwords.Controllers
                 {
                     case "pl":
                         Session["lang"] = "pl";
-                        return RedirectToAction("Question");
+                        break;
                     case "eng":
                         Session ["lang"] = "en";
-                        return RedirectToAction("Question");
+                        break;
                 }
+
+                return RedirectToAction("Question");
             }
             return RedirectToAction("SelectLanguage");
         }

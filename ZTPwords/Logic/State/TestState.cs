@@ -13,7 +13,7 @@ namespace ZTPwords.Logic.State
         public QuestionHandling AnswerQuestion(QuestionViewModels.AnsweredQuestionModel model)
         {
             var id = model.AnswerId;
-            var list = model.Answers.getAnswerList();
+            var list = model.Answers;
             var word = model.Word;
 
             var lang = (string)HttpContext.Current.Session["lang"];

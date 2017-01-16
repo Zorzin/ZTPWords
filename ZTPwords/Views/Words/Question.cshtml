@@ -36,7 +36,7 @@ else
             int i = 0;
         }
 
-        @foreach (var answer in Model.Answers.getAnswerList())
+        @foreach (var answer in Model.Answers)
         {
             <div class="panel-group">
                 <a class="answerpanel">
@@ -64,6 +64,7 @@ else
     @Html.HiddenFor(model => model.Word.WordPl)
     @Html.HiddenFor(model=>model.QuestionNumber)
     @Html.HiddenFor(model=>model.Mode)
+    @Html.HiddenFor(model=>model.Lang)
     @Html.TextBoxFor(model=>model.AnswerId,new {id="answer", style="display:none;"})
     <input type="submit" class="btn btn-success" value="Submit" style="margin-top: 20px;" disabled="disabled" id="submitButton"/>
 }
