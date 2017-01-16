@@ -28,9 +28,16 @@
         <div class="panel panel-default">
             <div class="panel-heading">Level</div>
             <div class="panel-body">
-
+                @{
+                    double percentLvl = (@ViewBag.Points*100)/@ViewBag.MaxLvlPoints;
+                    percentLvl = Math.Round(percentLvl);
+                }
                You are on level @ViewBag.Level with @ViewBag.Points points.
-
+                <div class="progress">
+                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="@ViewBag.Points" aria-valuemin="0" aria-valuemax="@ViewBag.MaxLvlPoints" style="width: @percentLvl%">
+                        @ViewBag.Points
+                    </div>
+                </div>
             </div>
         </div>
     </div>
