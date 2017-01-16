@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using ZTPwords.Logic.Adapter;
 using ZTPwords.Models;
 
 namespace ZTPwords.Logic
@@ -10,7 +11,7 @@ namespace ZTPwords.Logic
     {
         private List<Word> list;
         private Word correctAnswer;
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private DatabaseConnection db = new DatabaseConnection();
         public AnswerBuilderSameLength(Word _correctAnswer)
         {
             list = new List<Word>();
@@ -25,8 +26,7 @@ namespace ZTPwords.Logic
             Word w = null;
             do
             {
-                w = db.Words.OrderBy(t => Guid.NewGuid())
-                             .FirstOrDefault();
+                w = db.getRandWord();
 
             } while (correctAnswer == w);
             list.Add(w);
@@ -37,8 +37,7 @@ namespace ZTPwords.Logic
             Word w = null;
             do
             {
-                w = db.Words.Where(ww => ww.WordEn.Length == correctAnswer.WordEn.Length).OrderBy(ww => Guid.NewGuid())
-                             .FirstOrDefault();
+                w = db.getSameLengthWord(correctAnswer);
 
             } while (correctAnswer == w) ;
             list.Add(w);

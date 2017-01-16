@@ -13,6 +13,7 @@ using ZTPwords.Logic.State;
 using ZTPwords.Logic.UserLevel;
 using ZTPwords.Models;
 using static System.String;
+using ZTPwords.Logic.Adapter;
 
 namespace ZTPwords.Controllers
 {
@@ -25,7 +26,7 @@ namespace ZTPwords.Controllers
     }
     public class WordsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private DatabaseConnection db = new DatabaseConnection();
         private Context context = new Context();
 
         public ActionResult Question()
@@ -106,7 +107,7 @@ namespace ZTPwords.Controllers
             var points = state.GetPoints();
             ViewBag.Points = points;
             var username = User.Identity.Name;
-            var user = db.Users.FirstOrDefault(u => u.UserName == username);
+            var user = db.getUser(username);
             var levelChecker = new LevelChecker();
             levelChecker.CheckLevel(user, points);
             db.SaveChanges();
@@ -187,7 +188,7 @@ namespace ZTPwords.Controllers
 
             ViewBag.CurrentFilter = searchString;
 
-            var words = db.Words.ToList();
+            var words = db.getWords();
 
             if (!IsNullOrEmpty(searchString))
             {
@@ -206,7 +207,7 @@ namespace ZTPwords.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Word word = db.Words.Find(id);
+            Word word = db.FindWord(id.Value);
             if (word == null)
             {
                 return HttpNotFound();
@@ -229,7 +230,7 @@ namespace ZTPwords.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Words.Add(word);
+                db.wordAdd(word);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -244,7 +245,7 @@ namespace ZTPwords.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Word word = db.Words.Find(id);
+            Word word = db.FindWord(id.Value);
             if (word == null)
             {
                 return HttpNotFound();
@@ -261,7 +262,7 @@ namespace ZTPwords.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(word).State = EntityState.Modified;
+                db.wordState(word);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -275,7 +276,7 @@ namespace ZTPwords.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Word word = db.Words.Find(id);
+            Word word = db.FindWord(id.Value);
             if (word == null)
             {
                 return HttpNotFound();
@@ -288,8 +289,8 @@ namespace ZTPwords.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Word word = db.Words.Find(id);
-            db.Words.Remove(word);
+            Word word = db.FindWord(id);
+            db.removeWord(word);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -298,7 +299,6 @@ namespace ZTPwords.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
             }
             base.Dispose(disposing);
         }

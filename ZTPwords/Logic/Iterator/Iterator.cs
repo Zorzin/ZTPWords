@@ -9,12 +9,13 @@ using ZTPwords.Controllers;
 using ZTPwords.Logic.State;
 using ZTPwords.Models;
 using static ZTPwords.Models.QuestionViewModels;
+using ZTPwords.Logic.Adapter;
 
 namespace ZTPwords.Logic.Iterator
 {
     public class Iterator : IIterator
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private DatabaseConnection db = new DatabaseConnection();
         public List<QuestionModel> Questions;
         private TRandom r;
         private Word word;
@@ -33,7 +34,7 @@ namespace ZTPwords.Logic.Iterator
             while (true)
             {
                 int id = r.Next(0, 66366);
-                word = db.Words.Find(id);
+                word = db.FindWord(id);
                 mode = (string)System.Web.HttpContext.Current.Session["lang"];
                 string level =(string) System.Web.HttpContext.Current.Session["difficulty"];
                 if (level!=null)
@@ -78,7 +79,7 @@ namespace ZTPwords.Logic.Iterator
         private string CheckLevel()
         {
             var username = HttpContext.Current.User.Identity.Name;
-            var user = db.Users.FirstOrDefault(u => u.UserName == username);
+            var user = db.getUser(username);
             var level = user.Level;
             if (level<5)
             {

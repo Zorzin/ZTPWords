@@ -4,12 +4,13 @@ using System.Web;
 using Microsoft.AspNet.Identity;
 using ZTPwords.Models;
 using static ZTPwords.Models.QuestionViewModels;
+using ZTPwords.Logic.Adapter;
 
 namespace ZTPwords.Logic.Connector
 {
     public class AnswersQuestionConnector
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private DatabaseConnection db = new DatabaseConnection();
         public List<QuestionModel> Questions;
         private Iterator.Iterator _iterator;
         private List<Word> _answers;
@@ -117,7 +118,7 @@ namespace ZTPwords.Logic.Connector
         private string CheckLevel()
         {
             var username = HttpContext.Current.User.Identity.Name;
-            var user = db.Users.FirstOrDefault(u => u.UserName == username);
+            var user = db.getUser(username);
             var level = user.Level;
             if (level < 5)
             {
