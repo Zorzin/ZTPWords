@@ -25,5 +25,14 @@ namespace ZTPwords.Models
             public string Mode { get; set; }
             public string Lang { get; set; }
         }
+
+        public class QuestionHardModel
+        {
+            public Word Word { get; set; }
+            public int QuestionNumber { get; set; }
+            public string Answer { get; set; }
+            public string Mode { get; set; }
+            public string Lang { get; set; }
+        }
     }
 }

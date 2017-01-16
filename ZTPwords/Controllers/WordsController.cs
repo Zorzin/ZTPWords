@@ -15,6 +15,7 @@ using ZTPwords.Logic.UserLevel;
 using ZTPwords.Models;
 using static System.String;
 using ZTPwords.Logic.Adapter;
+using static ZTPwords.Models.QuestionViewModels;
 
 namespace ZTPwords.Controllers
 {
@@ -56,7 +57,7 @@ namespace ZTPwords.Controllers
             {
                 return RedirectToAction("Summary");
             }
-            QuestionViewModels.AnsweredQuestionModel model = new QuestionViewModels.AnsweredQuestionModel()
+            AnsweredQuestionModel model = new AnsweredQuestionModel()
             {
                 Answers = question.Answers,
                 Word = question.Word,
@@ -68,7 +69,7 @@ namespace ZTPwords.Controllers
         }
 
         [HttpPost]
-        public ActionResult Question(QuestionViewModels.AnsweredQuestionModel model)
+        public ActionResult Question(AnsweredQuestionModel model)
         {
             double points = 0;
             if (model.AnswerId != -1)
@@ -76,7 +77,7 @@ namespace ZTPwords.Controllers
                 model.Answers =  (List<Word>) Session["answers"];
                 var type = (Context)Session ["mode"];
                 StateMode state = type.GetState();
-                var result = type.GetState().AnswerQuestion(model);
+                var result = type.GetState().AnswerQuestion(model.Word,model.Answers[model.AnswerId]);
                 if (state is LearningState) //mam nadzieję ze to tak się sprawdza
                 {
                     if (result == QuestionHandling.CorrectAnswer)
@@ -97,6 +98,75 @@ namespace ZTPwords.Controllers
                     return RedirectToAction("Question");
                 }
                 
+            }
+            ViewBag.NoAnswer = "Pick answer";
+            return View(model);
+        }
+
+        public ActionResult QuestionHard()
+        {
+            ViewBag.MaxPoints = GetMaxPoints();
+            AnswersQuestionConnector connector = (AnswersQuestionConnector) Session["connector"];
+            if (connector == null)
+            {
+                connector = new AnswersQuestionConnector();
+                Session ["connector"] = connector;
+            }
+            var question = connector.GetQuestion();
+            var type = (Context)Session ["mode"];
+            string mode;
+            StateMode state = type.GetState(); ;
+            if (state is LearningState)
+            {
+                mode = "learn";
+            }
+            else
+            {
+                mode = "test";
+            }
+            ViewBag.Points = state.GetPoints();
+            if (question == null)
+            {
+                return RedirectToAction("Summary");
+            }
+            QuestionHardModel model = new QuestionHardModel()
+            {
+                Lang = (string) Session["lang"],
+                Mode = mode,
+                QuestionNumber = question.QuestionNumber+1,
+                Word = question.Word
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult QuestionHard(QuestionHardModel model)
+        {
+            if (!string.IsNullOrEmpty(model.Answer))
+            {
+                double points = 0;
+                var type = (Context)Session ["mode"];
+                StateMode state = type.GetState();
+                var result = type.GetState().AnswerQuestion(model.Word,new Word() {WordEn = model.Answer, WordPl = model.Answer});
+                if (state is LearningState)
+                {
+                    if (result == QuestionHandling.CorrectAnswer)
+                    {
+                        return RedirectToAction("QuestionHard");
+                    }
+                    ViewBag.NoAnswer = "Wrong answer";
+                    return View(model);
+                }
+                if (state is TestState)
+                {
+                    if (result == QuestionHandling.CorrectAnswer)
+                    {
+                        state.SetPoints(1);
+                        Debug.WriteLine(points);
+                    }
+
+                    return RedirectToAction("QuestionHard");
+                }
             }
             ViewBag.NoAnswer = "Pick answer";
             return View(model);
@@ -171,7 +241,10 @@ namespace ZTPwords.Controllers
                         Session ["lang"] = "en";
                         break;
                 }
-
+                if ((string)Session["difficulty"]=="hard")
+                {
+                    return RedirectToAction("QuestionHard");
+                }
                 return RedirectToAction("Question");
             }
             return RedirectToAction("SelectLanguage");

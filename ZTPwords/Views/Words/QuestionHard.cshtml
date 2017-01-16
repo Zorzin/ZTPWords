@@ -1,0 +1,54 @@
+﻿@model ZTPwords.Models.QuestionViewModels.QuestionHardModel
+
+
+@if (Model.Mode == "learn")
+{
+    <h2 style="text-align: center">Question @Model.QuestionNumber</h2>
+}
+else
+{
+    <h2 style="text-align: center">Question @Model.QuestionNumber/10</h2>
+}
+
+
+@if (ViewBag.NoAnswer != null)
+{
+    <h2 style="color: red; text-align: center;">@ViewBag.NoAnswer</h2>
+}
+
+@using (Html.BeginForm("QuestionHard", "Words", FormMethod.Post))
+{
+    <div class="maindiv">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @if (Model.Lang == "pl")
+                {
+                    @Html.Raw("Select the word that corresponds to: " + @Model.Word.WordEn);
+                }
+                else
+                {
+                    @Html.Raw("Podaj słowo odpowiadające słowu: " + @Model.Word.WordPl);
+                }
+
+            </div>
+        </div>
+        @{
+            int i = 0;
+        }
+        
+        @Html.TextBoxFor(model=>model.Answer,new {@class="form-control"})
+        
+    </div>
+    @Html.HiddenFor(model => model.Word.Id)
+            @Html.HiddenFor(model => model.Word.WordEn)
+            @Html.HiddenFor(model => model.Word.WordPl)
+            @Html.HiddenFor(model => model.QuestionNumber)
+            @Html.HiddenFor(model => model.Mode)
+            @Html.HiddenFor(model => model.Lang)
+            <input type="submit" class="btn btn-success" value="Submit" style="margin-top: 20px;" id="submitButton" />
+            }
+@Styles.Render("~/Content/Site.css")
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

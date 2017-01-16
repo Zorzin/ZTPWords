@@ -78,16 +78,13 @@ namespace ZTPwords.Logic.Connector
             switch (level)
             {
                 case 1:
-                    quantity = 2;
-                    break;
-                case 2:
                     quantity = 3;
                     break;
-                case 3:
+                case 2:
                     quantity = 5;
                     break;
                 default:
-                    quantity = 2;
+                    quantity = 0;
                     break;
                     
             }
@@ -104,12 +101,11 @@ namespace ZTPwords.Logic.Connector
             else if (level == 2)
             {
 
-                _answers = new AnswersDecoratorListMix(new Answers(currentWord, "SameLetter", getQuantity(), level)).getAnswerList();
-            }
-            else if(level==3)
-            {
-
                 _answers = new AnswersDecoratorSwapLetter(new AnswersDecoratorListMix(new Answers(currentWord, "SameLetter", getQuantity(), level))).getAnswerList();
+            }
+            else
+            {
+                _answers = null;
             }
 
             

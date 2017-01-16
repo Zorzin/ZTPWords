@@ -9,7 +9,7 @@ namespace ZTPwords.Logic.State
 {
     public interface StateMode
     {
-        QuestionHandling AnswerQuestion(QuestionViewModels.AnsweredQuestionModel model);
+        QuestionHandling AnswerQuestion(Word question, Word answer);
 
         void SetPoints(double point);
         double GetPoints();
