@@ -9,17 +9,17 @@ namespace ZTPwords.Logic
     public class Answers : IAnswers
     {
         private List<Word> list;
-        public Word correctAnswer { get; set; }
+        public Word CorrectAnswer { get; set; }
         public Answers(Word _correctAnswer,string buildingScheme, int quantity, int level)
         {
-            correctAnswer=_correctAnswer;
+            CorrectAnswer=_correctAnswer;
             AnswerBuilder builder = null;
             if (buildingScheme=="SameLetter")
             {
-               builder= new AnswerBuilderSameLetter(correctAnswer);
+               builder= new AnswerBuilderSameLetter(CorrectAnswer);
             }else
             {
-                builder = new AnswerBuilderSameLength(correctAnswer);
+                builder = new AnswerBuilderSameLength(CorrectAnswer);
             }
             AnswersDirector director = new AnswersDirector();
             director.Construct(builder,quantity,level);

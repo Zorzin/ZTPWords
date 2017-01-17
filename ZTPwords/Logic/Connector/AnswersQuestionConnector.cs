@@ -101,7 +101,7 @@ namespace ZTPwords.Logic.Connector
             else if (level == 2)
             {
 
-                _answers = new AnswersDecoratorSwapLetter(new AnswersDecoratorListMix(new Answers(currentWord, "SameLetter", getQuantity(), level))).getAnswerList();
+                _answers = new AnswersDecoratorSwapLetter(new AnswersDecoratorListMix(new Answers(currentWord, "SameLetter", getQuantity(), level)), currentWord).getAnswerList();
             }
             else
             {

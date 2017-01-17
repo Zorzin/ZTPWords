@@ -10,8 +10,10 @@ namespace ZTPwords.Logic
 {
     public class AnswersDecoratorSwapLetter : AnswersDecorator
     {
-        public AnswersDecoratorSwapLetter(IAnswers _answers) : base(_answers)
+        protected Word correctAnswer { get; set; }
+        public AnswersDecoratorSwapLetter(IAnswers _answers, Word _correctAnswer) : base(_answers)
         {
+            correctAnswer = _correctAnswer;
         }
 
         public override List<Word> getAnswerList()
@@ -22,10 +24,11 @@ namespace ZTPwords.Logic
             do
             {
                 rand = new System.Random().Next() % size;
-            } while (answers.correctAnswer == temp[rand]);
+            } while (correctAnswer == temp[rand]);
 
 
-
+            var v = correctAnswer;
+            var vv =temp[rand];
                 string s = temp[rand].WordEn;
 
                 var swap = new TRandom();
