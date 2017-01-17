@@ -218,8 +218,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Logic\Adapter\IDatabaseConnection.cs" />
     <Compile Include="Logic\Adapter\EntityFrameworkDatabaseConnection.cs" />
+    <Compile Include="Logic\Adapter\IDatabaseConnection.cs" />
     <Compile Include="Logic\AnswerBuilder.cs" />
     <Compile Include="Logic\AnswerBuilderSameLength.cs" />
     <Compile Include="Logic\AnswerBuilderSameLetter.cs" />
@@ -229,6 +229,7 @@
     <Compile Include="Logic\AnswersDirector.cs" />
     <Compile Include="Logic\Answers.cs" />
     <Compile Include="Logic\Connector\AnswersQuestionConnector.cs" />
+    <Compile Include="Logic\Connector\IAnswerQuestionConnector.cs" />
     <Compile Include="Logic\IAnswers.cs" />
     <Compile Include="Logic\Iterator\IIterator.cs" />
     <Compile Include="Logic\Iterator\Iterator.cs" />
