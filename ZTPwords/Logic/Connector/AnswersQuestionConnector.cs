@@ -8,7 +8,7 @@ using ZTPwords.Logic.Adapter;
 
 namespace ZTPwords.Logic.Connector
 {
-    public class AnswersQuestionConnector
+    public class AnswersQuestionConnector :IAnswerQuestionConnector
     {
         private DatabaseConnection db = new DatabaseConnection();
         public List<QuestionModel> Questions;
