@@ -7,7 +7,7 @@ using ZTPwords.Models;
 
 namespace ZTPwords.Logic.Adapter
 {
-    public class DatabaseConnection
+    public class EntityFrameworkDatabaseConnection : IDatabaseConnection
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 

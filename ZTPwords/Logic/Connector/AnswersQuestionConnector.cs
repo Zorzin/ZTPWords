@@ -10,7 +10,7 @@ namespace ZTPwords.Logic.Connector
 {
     public class AnswersQuestionConnector
     {
-        private DatabaseConnection db = new DatabaseConnection();
+        private IDatabaseConnection db = new EntityFrameworkDatabaseConnection();
         public List<QuestionModel> Questions;
         private Iterator.Iterator _iterator;
         private List<Word> _answers;

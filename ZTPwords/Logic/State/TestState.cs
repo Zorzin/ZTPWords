@@ -10,7 +10,7 @@ namespace ZTPwords.Logic.State
 {
     public class TestState : StateMode
     {
-        private DatabaseConnection db = new DatabaseConnection();
+        private IDatabaseConnection db = new EntityFrameworkDatabaseConnection();
         private double Points { get; set; }
         public QuestionHandling AnswerQuestion(Word question, Word answer)
         {
