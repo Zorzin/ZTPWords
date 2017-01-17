@@ -52,10 +52,10 @@ namespace ZTPwords.Migrations
                 List<Item> objects = new List<Item>();
                 
                 string path = AppDomain.CurrentDomain.BaseDirectory;
-                /*for (int i = 0; i < 1075; i++)
+                for (int i = 0; i < 1075; i++)
                 {
                     objects.Clear();
-                    using (StreamReader reader = new StreamReader(path+"/Words/json"+i+".json"))
+                    using (StreamReader reader = new StreamReader(path + "/Words/json" + i + ".json"))
                     {
                         json = reader.ReadToEnd();
                         objects = JsonConvert.DeserializeObject<List<Item>>(json);
@@ -70,7 +70,7 @@ namespace ZTPwords.Migrations
                             context.SaveChanges();
                         }
                     }
-                }*/
+                }
             }
 
         }
