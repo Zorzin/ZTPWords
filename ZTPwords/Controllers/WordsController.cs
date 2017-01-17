@@ -17,15 +17,15 @@ using static System.String;
 using ZTPwords.Logic.Adapter;
 using static ZTPwords.Models.QuestionViewModels;
 
+
 namespace ZTPwords.Controllers
 {
     public enum QuestionHandling
     {
         WrongAnswer,
-        CorrectAnswer,
-        NoMoreQuestions,
-
+        CorrectAnswer
     }
+    [Authorize]
     public class WordsController : Controller
     {
         private IDatabaseConnection db = new EntityFrameworkDatabaseConnection();
@@ -33,6 +33,11 @@ namespace ZTPwords.Controllers
 
         public ActionResult Question()
         {
+            var type = (Context)Session ["mode"];
+            if (type == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ViewBag.MaxPoints = GetMaxPoints();
             AnswersQuestionConnector connector = (AnswersQuestionConnector) Session["connector"];
             if (connector==null)
@@ -41,7 +46,7 @@ namespace ZTPwords.Controllers
                 Session["connector"] = connector;
             }
             var question = connector.GetQuestion();
-            var type = (Context)Session ["mode"];
+            
             string mode;
             StateMode state = type.GetState();;
             if (state is LearningState)
@@ -105,6 +110,11 @@ namespace ZTPwords.Controllers
 
         public ActionResult QuestionHard()
         {
+            var type = (Context)Session ["mode"];
+            if (type == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ViewBag.MaxPoints = GetMaxPoints();
             AnswersQuestionConnector connector = (AnswersQuestionConnector) Session["connector"];
             if (connector == null)
@@ -113,7 +123,6 @@ namespace ZTPwords.Controllers
                 Session ["connector"] = connector;
             }
             var question = connector.GetQuestion();
-            var type = (Context)Session ["mode"];
             string mode;
             StateMode state = type.GetState(); ;
             if (state is LearningState)
@@ -174,8 +183,12 @@ namespace ZTPwords.Controllers
 
         public ActionResult Summary()
         {
-            ViewBag.MaxLvlPoints = GetMaxLvlPoints();
             var type = (Context)Session ["mode"];
+            if (type == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            ViewBag.MaxLvlPoints = GetMaxLvlPoints();
             StateMode state = type.GetState();
             var points = state.GetPoints();
             ViewBag.Points = points;
@@ -188,6 +201,7 @@ namespace ZTPwords.Controllers
             ViewBag.userPoints = user.Points;
             ViewBag.MaxPoints = GetMaxPoints();
             Session ["connector"] = null;
+            Session["mode"] = null;
             return View();
         }
 
@@ -223,12 +237,21 @@ namespace ZTPwords.Controllers
 
         public ActionResult SelectLanguage()
         {
+            var type = (Context)Session ["mode"];
+            if (type == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
         
         public ActionResult ConfirmSelectLanguage(string language)
         {
-
+            var type = (Context)Session ["mode"];
+            if (type == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             Session ["connector"] = null;
             if (!IsNullOrEmpty(language))
             {
@@ -270,7 +293,11 @@ namespace ZTPwords.Controllers
 
         public ActionResult ConfirmDifficulty()
         {
-
+            var type = (Context)Session ["mode"];
+            if (type == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             Session ["connector"] = null;
             if (Request.QueryString["difficulty"] != null)
             {
@@ -307,6 +334,8 @@ namespace ZTPwords.Controllers
             return View(words.ToPagedList(pageNumber, pageSize));
         }
 
+
+        [Authorize(Roles = "Admin")]
         // GET: Words/Details/5
         public ActionResult Details(int? id)
         {
@@ -322,7 +351,7 @@ namespace ZTPwords.Controllers
             return View(word);
         }
 
-        // GET: Words/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -333,6 +362,7 @@ namespace ZTPwords.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "Id,WordEn,WordPl")] Word word)
         {
             if (ModelState.IsValid)
@@ -346,6 +376,7 @@ namespace ZTPwords.Controllers
         }
 
         // GET: Words/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -365,6 +396,7 @@ namespace ZTPwords.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,WordEn,WordPl")] Word word)
         {
             if (ModelState.IsValid)
@@ -377,6 +409,7 @@ namespace ZTPwords.Controllers
         }
 
         // GET: Words/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -392,6 +425,7 @@ namespace ZTPwords.Controllers
         }
 
         // POST: Words/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
