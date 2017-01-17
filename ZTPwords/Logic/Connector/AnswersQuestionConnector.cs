@@ -10,7 +10,7 @@ namespace ZTPwords.Logic.Connector
 {
     public class AnswersQuestionConnector :IAnswerQuestionConnector
     {
-        private DatabaseConnection db = new DatabaseConnection();
+        private IDatabaseConnection db = new EntityFrameworkDatabaseConnection();
         public List<QuestionModel> Questions;
         private Iterator.Iterator _iterator;
         private List<Word> _answers;
@@ -96,7 +96,7 @@ namespace ZTPwords.Logic.Connector
             int level = getLevel();
             if (level==1)
             {
-                _answers = new AnswersDecoratorListMix(new Answers(currentWord, "", getQuantity(), level)).getAnswerList();
+                _answers = new AnswersDecoratorListMix(new Answers(currentWord, "SameLength", getQuantity(), level)).getAnswerList();
             }
             else if (level == 2)
             {

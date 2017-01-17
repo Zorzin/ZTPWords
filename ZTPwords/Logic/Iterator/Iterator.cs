@@ -15,7 +15,7 @@ namespace ZTPwords.Logic.Iterator
 {
     public class Iterator : IIterator
     {
-        private DatabaseConnection db = new DatabaseConnection();
+        private EntityFrameworkDatabaseConnection db = new EntityFrameworkDatabaseConnection();
         public List<QuestionModel> Questions;
         private TRandom r;
         private Word word;

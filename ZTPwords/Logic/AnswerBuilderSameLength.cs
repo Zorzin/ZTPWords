@@ -11,7 +11,7 @@ namespace ZTPwords.Logic
     {
         private List<Word> list;
         private Word correctAnswer;
-        private DatabaseConnection db = new DatabaseConnection();
+        private IDatabaseConnection db = new EntityFrameworkDatabaseConnection();
         public AnswerBuilderSameLength(Word _correctAnswer)
         {
             list = new List<Word>();

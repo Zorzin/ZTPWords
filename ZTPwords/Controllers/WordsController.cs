@@ -28,7 +28,7 @@ namespace ZTPwords.Controllers
     }
     public class WordsController : Controller
     {
-        private DatabaseConnection db = new DatabaseConnection();
+        private IDatabaseConnection db = new EntityFrameworkDatabaseConnection();
         private Context context = new Context();
 
         public ActionResult Question()

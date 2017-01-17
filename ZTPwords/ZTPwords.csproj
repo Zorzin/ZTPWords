@@ -218,7 +218,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Logic\Adapter\DatabaseConnection.cs" />
+    <Compile Include="Logic\Adapter\IDatabaseConnection.cs" />
+    <Compile Include="Logic\Adapter\EntityFrameworkDatabaseConnection.cs" />
     <Compile Include="Logic\AnswerBuilder.cs" />
     <Compile Include="Logic\AnswerBuilderSameLength.cs" />
     <Compile Include="Logic\AnswerBuilderSameLetter.cs" />

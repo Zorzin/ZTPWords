@@ -14,7 +14,7 @@ namespace ZTPwords.Logic
             {
                 if (level == 1)
                 {
-                    answerBuilder.buildRandWord();
+                    answerBuilder.buildSpecialWord();
                 }
                 else if (level == 2)
                 {
